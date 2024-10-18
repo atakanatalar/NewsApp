@@ -8,7 +8,8 @@
 import UIKit
 
 class HomeViewController: UIViewController {
-
+    let networkManager = NetworkManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -16,5 +17,21 @@ class HomeViewController: UIViewController {
         
         title = "News App"
         navigationController?.navigationBar.prefersLargeTitles = true
+        
+        fetchNews()
+    }
+    
+    func fetchNews() {
+        let endpoint = NewsAPIEndpoint.topHeadlines(category: .all)
+//        let endpoint = NewsAPIEndpoint.everything(query: "bitcoin")
+        
+        networkManager.request(endpoint: endpoint) { (result: Result<NewsResponse, NetworkError>) in
+            switch result {
+            case .success(let newsResponse):
+                print(newsResponse.articles)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
 }
