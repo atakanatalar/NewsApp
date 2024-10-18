@@ -8,7 +8,7 @@
 import Foundation
 
 enum NewsAPIEndpoint {
-    case topHeadlines(category: NewsCategory)
+    case topHeadlines(category: NewsCategory?)
     case everything(query: String?)
 }
 
@@ -37,9 +37,7 @@ extension NewsAPIEndpoint: Endpoint {
         case .topHeadlines(let category):
             params["country"] = "us"
             
-            if category == .all {
-                return params
-            } else {
+            if let category = category {
                 params["category"] = category.rawValue
             }
         case .everything(let query):

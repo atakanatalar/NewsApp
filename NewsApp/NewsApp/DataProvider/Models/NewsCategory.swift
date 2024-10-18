@@ -8,7 +8,6 @@
 import Foundation
 
 enum NewsCategory: String, CaseIterable {
-    case all
     case business
     case entertainment
     case general
@@ -19,8 +18,6 @@ enum NewsCategory: String, CaseIterable {
     
     var description: String {
         switch self {
-        case .all:
-            return "All"
         case .business:
             return "Business"
         case .entertainment:
