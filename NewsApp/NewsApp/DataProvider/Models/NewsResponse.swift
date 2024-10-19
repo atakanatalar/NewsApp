@@ -14,7 +14,7 @@ struct NewsResponse: Decodable {
 }
 
 struct Article: Decodable {
-    let source: Source
+    let source: Source?
     let author: String?
     let title: String?
     let description: String?
@@ -26,5 +26,5 @@ struct Article: Decodable {
 
 struct Source: Decodable {
     let id: String?
-    let name: String
+    let name: String?
 }

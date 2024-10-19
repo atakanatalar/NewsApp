@@ -29,7 +29,7 @@ class HomeViewController: UIViewController {
         
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(NewsTableViewCell.self, forCellReuseIdentifier: "NewsCell")
         
         view.addSubview(tableView)
         tableView.frame = view.bounds
@@ -104,15 +104,23 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate, UIScro
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "NewsCell", for: indexPath) as? NewsTableViewCell else {
+            return UITableViewCell()
+        }
+        
         let article = articles[indexPath.row]
-        cell.textLabel?.text = article.title
+        cell.configure(with: article)
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedArticle = articles[indexPath.row]
         print(selectedArticle.title ?? "selected")
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 120
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -130,4 +138,9 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate, UIScro
             fetchNews(page: currentPage)
         }
     }
+}
+
+#Preview {
+    let vc = UINavigationController(rootViewController: HomeViewController())
+    return vc
 }
