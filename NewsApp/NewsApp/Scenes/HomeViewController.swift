@@ -13,6 +13,11 @@ class HomeViewController: UIViewController {
     let tableView = UITableView()
     
     var selectedCategory: NewsCategory = .general
+    var currentPage: Int = 1
+    var totalResults: Int = 0
+    var isLoading: Bool = false
+    
+    let activityIndicator = UIActivityIndicatorView(style: .medium)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +34,12 @@ class HomeViewController: UIViewController {
         view.addSubview(tableView)
         tableView.frame = view.bounds
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Filter", image: nil, primaryAction: nil, menu: createCategoryMenu())
+        activityIndicator.center = view.center
+        activityIndicator.color = .systemBlue
+        activityIndicator.hidesWhenStopped = true
+        view.addSubview(activityIndicator)
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Filter", image: UIImage(systemName: "line.3.horizontal.decrease.circle"), primaryAction: nil, menu: createCategoryMenu())
         
         fetchNews()
     }
@@ -53,45 +63,42 @@ class HomeViewController: UIViewController {
         
         navigationItem.rightBarButtonItem?.menu = createCategoryMenu()
         
-        let endpoint = NewsAPIEndpoint.topHeadlines(category: category)
-        
-        networkManager.request(endpoint: endpoint) { [weak self] (result: Result<NewsResponse, NetworkError>) in
-            guard let self = self else { return }
-            
-            switch result {
-            case .success(let newsResponse):
-                self.articles = newsResponse.articles
-                
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
+        currentPage = 1
+        articles.removeAll()
+        fetchNews(page: currentPage)
     }
     
-    func fetchNews() {
-        let endpoint = NewsAPIEndpoint.topHeadlines(category: .general)
+    func fetchNews(page: Int = 1, pageSize: Int = 20) {
+        let endpoint = NewsAPIEndpoint.topHeadlines(category: selectedCategory, page: page, pageSize: pageSize)
+        
+        isLoading = true
+        activityIndicator.startAnimating()
         
         networkManager.request(endpoint: endpoint) { [weak self] (result: Result<NewsResponse, NetworkError>) in
             guard let self = self else { return }
             
             switch result {
             case .success(let newsResponse):
-                self.articles = newsResponse.articles
+                self.totalResults = newsResponse.totalResults
+                self.articles.append(contentsOf: newsResponse.articles)
                 
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
+                    self.isLoading = false
+                    self.activityIndicator.stopAnimating()
                 }
             case .failure(let error):
                 print(error.localizedDescription)
+                self.isLoading = false
+                DispatchQueue.main.async {
+                    self.activityIndicator.stopAnimating()
+                }
             }
         }
     }
 }
 
-extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
+extension HomeViewController: UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return articles.count
     }
@@ -106,5 +113,21 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedArticle = articles[indexPath.row]
         print(selectedArticle.title ?? "selected")
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        
+        if offsetY > contentHeight - scrollView.frame.size.height {
+            loadMoreNews()
+        }
+    }
+    
+    func loadMoreNews() {
+        if !isLoading && articles.count < totalResults {
+            currentPage += 1
+            fetchNews(page: currentPage)
+        }
     }
 }

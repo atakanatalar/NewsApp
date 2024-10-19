@@ -8,8 +8,8 @@
 import Foundation
 
 enum NewsAPIEndpoint {
-    case topHeadlines(category: NewsCategory?)
-    case everything(query: String?)
+    case topHeadlines(category: NewsCategory?, page: Int, pageSize: Int)
+    case everything(query: String?, page: Int, pageSize: Int)
 }
 
 extension NewsAPIEndpoint: Endpoint {
@@ -34,18 +34,26 @@ extension NewsAPIEndpoint: Endpoint {
         var params = [String: String]()
         
         switch self {
-        case .topHeadlines(let category):
+        case .topHeadlines(let category, let page, let pageSize):
             params["country"] = "us"
             
             if let category = category {
                 params["category"] = category.rawValue
             }
-        case .everything(let query):
+            
+            params["page"] = "\(page)"
+            params["pageSize"] = "\(pageSize)"
+            
+            return params
+        case .everything(let query, let page, let pageSize):
             if let query = query {
                 params["q"] = query
             }
+            
+            params["page"] = "\(page)"
+            params["pageSize"] = "\(pageSize)"
+            
+            return params
         }
-        
-        return params
     }
 }

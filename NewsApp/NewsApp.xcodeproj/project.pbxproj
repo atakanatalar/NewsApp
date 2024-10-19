@@ -70,8 +70,8 @@
 		0CD5D3292CC25CD200172654 /* NewsApp */ = {
 			isa = PBXGroup;
 			children = (
-				0CD5D3432CC2725700172654 /* DataProvider */,
 				0CD5D33E2CC25CF000172654 /* App */,
+				0CD5D3432CC2725700172654 /* DataProvider */,
 				0CD5D33F2CC25CF900172654 /* Resources */,
 				0CD5D3422CC26D4D00172654 /* Scenes */,
 			);
