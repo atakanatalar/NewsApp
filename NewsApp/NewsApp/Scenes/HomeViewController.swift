@@ -11,7 +11,7 @@ class HomeViewController: UIViewController {
     let networkManager = NetworkManager()
     var articles: [Article] = []
     let tableView = UITableView()
-    let searchBar = UISearchBar()
+    let searchController = UISearchController()
     
     var selectedCategory: NewsCategory = .general
     var currentPage: Int = 1
@@ -28,9 +28,10 @@ class HomeViewController: UIViewController {
         title = "News App"
         navigationController?.navigationBar.prefersLargeTitles = true
         
-        searchBar.delegate = self
-        searchBar.placeholder = "Search News"
-        navigationItem.titleView = searchBar
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.placeholder = "Search"
+        searchController.obscuresBackgroundDuringPresentation = false
+        navigationItem.searchController = searchController
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -77,12 +78,10 @@ class HomeViewController: UIViewController {
     func fetchNews(page: Int = 1, pageSize: Int = 20) {
         let endpoint: NewsAPIEndpoint
         
-        if let searchText = searchBar.text, !searchText.isEmpty {
+        if let searchText = navigationItem.searchController?.searchBar.text, !searchText.isEmpty {
             endpoint = .everything(query: searchText, page: page, pageSize: pageSize)
-            navigationItem.rightBarButtonItem?.isHidden = true
         } else {
             endpoint = .topHeadlines(category: selectedCategory, page: page, pageSize: pageSize)
-            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Filter", image: UIImage(systemName: "line.3.horizontal.decrease.circle"), primaryAction: nil, menu: createCategoryMenu())
         }
         
         isLoading = true
@@ -118,13 +117,16 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard articles.indices.contains(indexPath.row) else {
+            return UITableViewCell()
+        }
+        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "NewsCell", for: indexPath) as? NewsTableViewCell else {
             return UITableViewCell()
         }
         
         let article = articles[indexPath.row]
         cell.configure(with: article)
-        cell.selectionStyle = .none
         
         return cell
     }
@@ -160,26 +162,11 @@ extension HomeViewController: UIScrollViewDelegate {
     }
 }
 
-extension HomeViewController: UISearchBarDelegate {
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+extension HomeViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
         articles.removeAll()
         currentPage = 1
         fetchNews(page: currentPage)
-        searchBar.showsCancelButton = true
-        searchBar.resignFirstResponder()
-    }
-    
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.text = ""
-        articles.removeAll()
-        currentPage = 1
-        
-        fetchNews(page: currentPage)
-        
-        navigationItem.rightBarButtonItem?.isHidden = false
-        
-        searchBar.showsCancelButton = false
-        searchBar.resignFirstResponder()
     }
 }
 
