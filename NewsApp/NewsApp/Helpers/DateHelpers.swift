@@ -26,4 +26,18 @@ struct DateHelper {
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
         return dateFormatter.date(from: dateString)
     }
+    
+    static func formatDateString(_ dateString: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        
+        guard let date = dateFormatter.date(from: dateString) else {
+            return "Unknown Date"
+        }
+        
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .none
+        
+        return dateFormatter.string(from: date)
+    }
 }

@@ -11,6 +11,7 @@ class HomeViewController: UIViewController {
     let networkManager = NetworkManager()
     var articles: [Article] = []
     let tableView = UITableView()
+    let searchBar = UISearchBar()
     
     var selectedCategory: NewsCategory = .general
     var currentPage: Int = 1
@@ -27,9 +28,14 @@ class HomeViewController: UIViewController {
         title = "News App"
         navigationController?.navigationBar.prefersLargeTitles = true
         
+        searchBar.delegate = self
+        searchBar.placeholder = "Search News"
+        navigationItem.titleView = searchBar
+        
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(NewsTableViewCell.self, forCellReuseIdentifier: "NewsCell")
+        tableView.backgroundColor = .secondarySystemBackground
         
         view.addSubview(tableView)
         tableView.frame = view.bounds
@@ -69,7 +75,15 @@ class HomeViewController: UIViewController {
     }
     
     func fetchNews(page: Int = 1, pageSize: Int = 20) {
-        let endpoint = NewsAPIEndpoint.topHeadlines(category: selectedCategory, page: page, pageSize: pageSize)
+        let endpoint: NewsAPIEndpoint
+        
+        if let searchText = searchBar.text, !searchText.isEmpty {
+            endpoint = .everything(query: searchText, page: page, pageSize: pageSize)
+            navigationItem.rightBarButtonItem?.isHidden = true
+        } else {
+            endpoint = .topHeadlines(category: selectedCategory, page: page, pageSize: pageSize)
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Filter", image: UIImage(systemName: "line.3.horizontal.decrease.circle"), primaryAction: nil, menu: createCategoryMenu())
+        }
         
         isLoading = true
         activityIndicator.startAnimating()
@@ -98,7 +112,7 @@ class HomeViewController: UIViewController {
     }
 }
 
-extension HomeViewController: UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
+extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return articles.count
     }
@@ -110,19 +124,25 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate, UIScro
         
         let article = articles[indexPath.row]
         cell.configure(with: article)
+        cell.selectionStyle = .none
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedArticle = articles[indexPath.row]
-        print(selectedArticle.title ?? "selected")
+        
+        let detailVC = DetailViewController()
+        detailVC.article = selectedArticle
+        navigationController?.pushViewController(detailVC, animated: true)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 120
     }
-    
+}
+
+extension HomeViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
@@ -137,6 +157,29 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate, UIScro
             currentPage += 1
             fetchNews(page: currentPage)
         }
+    }
+}
+
+extension HomeViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        articles.removeAll()
+        currentPage = 1
+        fetchNews(page: currentPage)
+        searchBar.showsCancelButton = true
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = ""
+        articles.removeAll()
+        currentPage = 1
+        
+        fetchNews(page: currentPage)
+        
+        navigationItem.rightBarButtonItem?.isHidden = false
+        
+        searchBar.showsCancelButton = false
+        searchBar.resignFirstResponder()
     }
 }
 
