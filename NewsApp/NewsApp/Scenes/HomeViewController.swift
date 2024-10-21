@@ -20,6 +20,8 @@ class HomeViewController: UIViewController {
     
     let activityIndicator = UIActivityIndicatorView(style: .medium)
     
+    let customSegmentedControl = CustomSegmentedControl(segmentTitles: NewsCategory.allCases.map { $0.description })
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -33,10 +35,19 @@ class HomeViewController: UIViewController {
         searchController.obscuresBackgroundDuringPresentation = false
         navigationItem.searchController = searchController
         
+        customSegmentedControl.buttonTapped = { [weak self] index in
+            guard let self = self else { return }
+            self.selectedCategory = NewsCategory.allCases[index]
+            self.filterNews(by: self.selectedCategory)
+        }
+        
+        customSegmentedControl.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 35)
+        
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(NewsTableViewCell.self, forCellReuseIdentifier: "NewsCell")
         tableView.backgroundColor = .secondarySystemBackground
+        tableView.tableHeaderView = customSegmentedControl
         
         view.addSubview(tableView)
         tableView.frame = view.bounds
@@ -46,30 +57,11 @@ class HomeViewController: UIViewController {
         activityIndicator.hidesWhenStopped = true
         view.addSubview(activityIndicator)
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Filter", image: UIImage(systemName: "line.3.horizontal.decrease.circle"), primaryAction: nil, menu: createCategoryMenu())
-        
         fetchNews()
-    }
-    
-    func createCategoryMenu() -> UIMenu {
-        let categories = NewsCategory.allCases
-        
-        let actions = categories.map { category in
-            UIAction(title: category.description, state: category == selectedCategory ? .on : .off, handler: { [weak self] _ in
-                self?.filterNews(by: category)
-            })
-        }
-        
-        let menu = UIMenu(title: "Select Category", options: .displayInline, children: actions)
-        
-        return menu
     }
     
     func filterNews(by category: NewsCategory) {
         selectedCategory = category
-        
-        navigationItem.rightBarButtonItem?.menu = createCategoryMenu()
-        
         currentPage = 1
         articles.removeAll()
         fetchNews(page: currentPage)
@@ -127,6 +119,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         
         let article = articles[indexPath.row]
         cell.configure(with: article)
+        cell.selectionStyle = .none
         
         return cell
     }
@@ -171,6 +164,7 @@ extension HomeViewController: UISearchResultsUpdating {
 }
 
 #Preview {
-    let vc = UINavigationController(rootViewController: HomeViewController())
-    return vc
+    let vc = HomeViewController()
+    vc.articles = NewsResponse.mock.articles
+    return UINavigationController(rootViewController: vc)
 }

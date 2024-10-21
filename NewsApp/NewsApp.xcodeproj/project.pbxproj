@@ -24,6 +24,7 @@
 		0CD5D35C2CC3B3D300172654 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 0CD5D35B2CC3B3D300172654 /* SDWebImage */; };
 		0CD5D3612CC3BA7E00172654 /* DateHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD5D3602CC3BA7E00172654 /* DateHelpers.swift */; };
 		0CD5D3632CC3CC2B00172654 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD5D3622CC3CC2B00172654 /* DetailViewController.swift */; };
+		0CD5D3652CC67C2400172654 /* CustomSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD5D3642CC67C2400172654 /* CustomSegmentedControl.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +46,7 @@
 		0CD5D3582CC3B2AA00172654 /* NewsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewCell.swift; sourceTree = "<group>"; };
 		0CD5D3602CC3BA7E00172654 /* DateHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHelpers.swift; sourceTree = "<group>"; };
 		0CD5D3622CC3CC2B00172654 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		0CD5D3642CC67C2400172654 /* CustomSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegmentedControl.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				0CD5D35D2CC3B56F00172654 /* Cells */,
+				0CD5D3642CC67C2400172654 /* CustomSegmentedControl.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -255,6 +258,7 @@
 				0CD5D3512CC273A900172654 /* NewsResponse.swift in Sources */,
 				0CD5D32B2CC25CD200172654 /* AppDelegate.swift in Sources */,
 				0CD5D32D2CC25CD200172654 /* SceneDelegate.swift in Sources */,
+				0CD5D3652CC67C2400172654 /* CustomSegmentedControl.swift in Sources */,
 				0CD5D3612CC3BA7E00172654 /* DateHelpers.swift in Sources */,
 				0CD5D34F2CC2738300172654 /* NetworkManager.swift in Sources */,
 				0CD5D34B2CC2737300172654 /* Endpoint.swift in Sources */,
