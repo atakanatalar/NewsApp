@@ -60,7 +60,8 @@ class HomeViewModel {
             switch result {
             case .success(let newsResponse):
                 self.totalResults = newsResponse.totalResults
-                self.articles.append(contentsOf: newsResponse.articles)
+                let filteredArticles = newsResponse.articles.filter { $0.source?.name != "[Removed]" }
+                self.articles.append(contentsOf: filteredArticles)
                 self.isLoading = false
                 self.delegate?.didUpdateArticles()
             case .failure(let error):
