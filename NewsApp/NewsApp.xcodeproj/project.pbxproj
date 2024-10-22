@@ -25,6 +25,7 @@
 		0CD5D3612CC3BA7E00172654 /* DateHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD5D3602CC3BA7E00172654 /* DateHelpers.swift */; };
 		0CD5D3632CC3CC2B00172654 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD5D3622CC3CC2B00172654 /* DetailViewController.swift */; };
 		0CD5D3652CC67C2400172654 /* CustomSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD5D3642CC67C2400172654 /* CustomSegmentedControl.swift */; };
+		0CD5D3682CC7BAEA00172654 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD5D3672CC7BAEA00172654 /* HomeViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +48,7 @@
 		0CD5D3602CC3BA7E00172654 /* DateHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHelpers.swift; sourceTree = "<group>"; };
 		0CD5D3622CC3CC2B00172654 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		0CD5D3642CC67C2400172654 /* CustomSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegmentedControl.swift; sourceTree = "<group>"; };
+		0CD5D3672CC7BAEA00172654 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +87,7 @@
 				0CD5D35F2CC3BA6D00172654 /* Helpers */,
 				0CD5D33F2CC25CF900172654 /* Resources */,
 				0CD5D3422CC26D4D00172654 /* Scenes */,
+				0CD5D3662CC7BACD00172654 /* ViewModels */,
 				0CD5D35E2CC3B57600172654 /* Views */,
 			);
 			path = NewsApp;
@@ -174,6 +177,14 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		0CD5D3662CC7BACD00172654 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				0CD5D3672CC7BAEA00172654 /* HomeViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -253,6 +264,7 @@
 				0CD5D3472CC2736200172654 /* HTTPMethod.swift in Sources */,
 				0CD5D3552CC28CB100172654 /* NewsCategory.swift in Sources */,
 				0CD5D3592CC3B2AA00172654 /* NewsTableViewCell.swift in Sources */,
+				0CD5D3682CC7BAEA00172654 /* HomeViewModel.swift in Sources */,
 				0CD5D32F2CC25CD200172654 /* HomeViewController.swift in Sources */,
 				0CD5D3532CC2897000172654 /* NetworkConstants.swift in Sources */,
 				0CD5D3512CC273A900172654 /* NewsResponse.swift in Sources */,
