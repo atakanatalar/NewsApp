@@ -86,6 +86,10 @@ extension HomeViewController: HomeViewModelDelegate {
         print(error.localizedDescription)
         DispatchQueue.main.async {
             self.activityIndicator.stopAnimating()
+            
+            let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
         }
     }
 }
@@ -129,16 +133,29 @@ extension HomeViewController: UIScrollViewDelegate {
         let contentHeight = scrollView.contentSize.height
         
         if offsetY > contentHeight - scrollView.frame.size.height {
-            viewModel.loadMoreNews()
+            if viewModel.lastSearchText == nil {
+                viewModel.loadMoreNews()
+            } else {
+                viewModel.loadMoreNews(query: viewModel.lastSearchText)
+            }
         }
     }
 }
 
 extension HomeViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        let searchText = searchController.searchBar.text
-        viewModel.resetArticles()
-        viewModel.fetchNews(query: searchText)
+        let searchText = searchController.searchBar.text?.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        viewModel.debounceTimer?.invalidate()
+        viewModel.debounceTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { [weak self] _ in
+            guard let self = self else { return }
+            
+            if searchText != self.viewModel.lastSearchText {
+                self.viewModel.lastSearchText = searchText
+                self.viewModel.resetArticles()
+                self.viewModel.fetchNews(query: searchText)
+            }
+        }
     }
 }
 
@@ -149,6 +166,7 @@ extension HomeViewController: UISearchControllerDelegate {
     
     func willDismissSearchController(_ searchController: UISearchController) {
         tableView.tableHeaderView = customSegmentedControl
+        viewModel.lastSearchText = nil
     }
 }
 

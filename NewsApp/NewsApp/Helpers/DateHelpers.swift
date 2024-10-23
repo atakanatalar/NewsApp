@@ -12,7 +12,9 @@ struct DateHelper {
         let now = Date()
         let difference = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: date, to: now)
         
-        if let hours = difference.hour, hours > 0 {
+        if let days = difference.day, days > 0 {
+            return "\(days) days ago"
+        } else if let hours = difference.hour, hours > 0 {
             return "\(hours) hours ago"
         } else if let minutes = difference.minute, minutes > 0 {
             return "\(minutes) minutes ago"

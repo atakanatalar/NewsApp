@@ -18,7 +18,10 @@ class HomeViewModel {
     var articles: [Article] = []
     var currentPage: Int = 1
     var totalResults: Int = 0
+    var incomingResults: Int = 0
     var isLoading: Bool = false
+    var lastSearchText: String?
+    var debounceTimer: Timer?
     
     weak var delegate: HomeViewModelDelegate?
     
@@ -35,10 +38,12 @@ class HomeViewModel {
         delegate?.didUpdateArticles()
     }
     
-    func loadMoreNews() {
-        if !isLoading && articles.count < totalResults {
+    func loadMoreNews(query: String? = nil) {
+        incomingResults = currentPage * 20
+        
+        if !isLoading && incomingResults < totalResults {
             currentPage += 1
-            fetchNews(page: currentPage)
+            fetchNews(page: currentPage, query: query)
         }
     }
     
