@@ -9,7 +9,7 @@ import Foundation
 
 enum NewsAPIEndpoint {
     case topHeadlines(category: NewsCategory?, page: Int, pageSize: Int)
-    case everything(query: String?, page: Int, pageSize: Int)
+    case everything(query: String?, page: Int, pageSize: Int, sortBy: NewsSortOption)
 }
 
 extension NewsAPIEndpoint: Endpoint {
@@ -45,13 +45,14 @@ extension NewsAPIEndpoint: Endpoint {
             params["pageSize"] = "\(pageSize)"
             
             return params
-        case .everything(let query, let page, let pageSize):
+        case .everything(let query, let page, let pageSize, let sortBy):
             if let query = query {
                 params["q"] = query
             }
             
             params["page"] = "\(page)"
             params["pageSize"] = "\(pageSize)"
+            params["sortBy"] = sortBy.rawValue
             
             return params
         }

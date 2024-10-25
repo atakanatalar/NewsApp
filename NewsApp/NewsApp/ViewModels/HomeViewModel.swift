@@ -32,6 +32,13 @@ class HomeViewModel {
         }
     }
     
+    var sortOption: NewsSortOption = .publishedAt {
+        didSet {
+            resetArticles()
+            fetchNews(query: lastSearchText)
+        }
+    }
+    
     func resetArticles() {
         currentPage = 1
         articles.removeAll()
@@ -51,7 +58,7 @@ class HomeViewModel {
         let endpoint: NewsAPIEndpoint
         
         if let searchText = query, !searchText.isEmpty {
-            endpoint = .everything(query: searchText, page: page, pageSize: pageSize)
+            endpoint = .everything(query: searchText, page: page, pageSize: pageSize, sortBy: sortOption)
         } else {
             endpoint = .topHeadlines(category: selectedCategory, page: page, pageSize: pageSize)
         }

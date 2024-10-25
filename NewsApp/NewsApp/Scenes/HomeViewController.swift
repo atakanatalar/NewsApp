@@ -9,7 +9,8 @@ import UIKit
 
 class HomeViewController: UIViewController {
     let searchController = UISearchController()
-    let customSegmentedControl = CustomSegmentedControl(segmentTitles: NewsCategory.allCases.map { $0.description })
+    let categorySegmentedControl = CustomSegmentedControl(segmentTitles: NewsCategory.allCases.map { $0.description })
+    let sortOptionSegmentedControl = CustomSegmentedControl(segmentTitles: NewsSortOption.allCases.map { $0.description })
     let tableView = UITableView()
     let activityIndicator = UIActivityIndicatorView(style: .medium)
     
@@ -28,7 +29,8 @@ class HomeViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         
         setupSearchController()
-        setupSegmentedControl()
+        setupCategorySegmentedControl()
+        setupSortOptionSegmentedControl()
         setupTableView()
         setupActivityIndicator()
     }
@@ -41,13 +43,22 @@ class HomeViewController: UIViewController {
         navigationItem.searchController = searchController
     }
     
-    private func setupSegmentedControl() {
-        customSegmentedControl.buttonTapped = { [weak self] index in
+    private func setupCategorySegmentedControl() {
+        categorySegmentedControl.buttonTapped = { [weak self] index in
             guard let self = self else { return }
             self.viewModel.selectedCategory = NewsCategory.allCases[index]
         }
         
-        customSegmentedControl.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 35)
+        categorySegmentedControl.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 35)
+    }
+    
+    private func setupSortOptionSegmentedControl() {
+        sortOptionSegmentedControl.buttonTapped = { [weak self] index in
+            guard let self = self else { return }
+            self.viewModel.sortOption = NewsSortOption.allCases[index]
+        }
+        
+        sortOptionSegmentedControl.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 35)
     }
     
     private func setupTableView() {
@@ -56,7 +67,7 @@ class HomeViewController: UIViewController {
         tableView.delegate = self
         tableView.register(NewsTableViewCell.self, forCellReuseIdentifier: "NewsCell")
         tableView.backgroundColor = .secondarySystemBackground
-        tableView.tableHeaderView = customSegmentedControl
+        tableView.tableHeaderView = categorySegmentedControl
         tableView.frame = view.bounds
     }
     
@@ -161,11 +172,11 @@ extension HomeViewController: UISearchResultsUpdating {
 
 extension HomeViewController: UISearchControllerDelegate {
     func willPresentSearchController(_ searchController: UISearchController) {
-        tableView.tableHeaderView = nil
+        tableView.tableHeaderView = sortOptionSegmentedControl
     }
     
     func willDismissSearchController(_ searchController: UISearchController) {
-        tableView.tableHeaderView = customSegmentedControl
+        tableView.tableHeaderView = categorySegmentedControl
         viewModel.lastSearchText = nil
     }
 }
