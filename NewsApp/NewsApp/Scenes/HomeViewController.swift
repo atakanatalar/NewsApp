@@ -13,6 +13,7 @@ class HomeViewController: UIViewController {
     let sortOptionSegmentedControl = CustomSegmentedControl(segmentTitles: NewsSortOption.allCases.map { $0.description })
     let tableView = UITableView()
     let activityIndicator = UIActivityIndicatorView(style: .medium)
+    let refreshControl = UIRefreshControl()
     
     private var viewModel = HomeViewModel()
     
@@ -33,6 +34,7 @@ class HomeViewController: UIViewController {
         setupSortOptionSegmentedControl()
         setupTableView()
         setupActivityIndicator()
+        setupRefreshControl()
     }
     
     private func setupSearchController() {
@@ -76,6 +78,23 @@ class HomeViewController: UIViewController {
         activityIndicator.center = view.center
         activityIndicator.color = .systemBlue
         activityIndicator.hidesWhenStopped = true
+    }
+    
+    private func setupRefreshControl() {
+        tableView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+    }
+    
+    @objc private func refreshData() {
+        viewModel.resetArticles()
+        
+        if let searchText = viewModel.lastSearchText, !searchText.isEmpty {
+            viewModel.fetchNews(query: searchText)
+        } else {
+            viewModel.fetchNews()
+        }
+        
+        refreshControl.endRefreshing()
     }
 }
 
