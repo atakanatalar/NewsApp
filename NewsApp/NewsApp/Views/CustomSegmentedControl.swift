@@ -70,8 +70,8 @@ class CustomSegmentedControl: UIView {
         for (index, button) in buttons.enumerated() {
             let buttonWidth = button.intrinsicContentSize.width + 30
             button.frame = CGRect(x: currentX, y: 0, width: buttonWidth, height: self.frame.height)
-            button.setTitleColor(index == selectedSegmentIndex ? .systemBlue : .systemGray, for: .normal)
-            button.backgroundColor = index == selectedSegmentIndex ? .systemBlue.withAlphaComponent(0.2) : .tertiarySystemFill
+            button.setTitleColor(index == selectedSegmentIndex ? .tertiarySystemBackground : .systemGray, for: .normal)
+            button.backgroundColor = index == selectedSegmentIndex ? .label : .tertiarySystemFill
             currentX += buttonWidth + buttonSpacing
         }
         
