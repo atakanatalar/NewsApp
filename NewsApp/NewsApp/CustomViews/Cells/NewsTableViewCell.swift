@@ -11,14 +11,7 @@ import SDWebImage
 class NewsTableViewCell: UITableViewCell {
     let titleLabel = NATitleLabel(textAlignment: .left, textStyle: .body, fontWeight: .bold)
     let detailsLabel = NABodyLabel(textStyle: .footnote, textColor: .secondaryLabel)
-    
-    let newsImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 8
-        return imageView
-    }()
+    private let newsImageView = NAImageView(contentMode: .scaleAspectFill, cornerRadius: 8)
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -28,9 +21,6 @@ class NewsTableViewCell: UITableViewCell {
         contentView.addSubview(newsImageView)
         contentView.addSubview(titleLabel)
         contentView.addSubview(detailsLabel)
-        
-        newsImageView.translatesAutoresizingMaskIntoConstraints = false
-        
         NSLayoutConstraint.activate([
             newsImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             newsImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),

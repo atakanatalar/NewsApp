@@ -11,20 +11,15 @@ import SafariServices
 class DetailViewController: UIViewController {
     var article: Article?
     private let favoriteButton = UIBarButtonItem()
-    
-    private let imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.clipsToBounds = true
-        return imageView
-    }()
-    
+    private let detailImageView = NAImageView(contentMode: .scaleAspectFit)
     private let sourceLabel = NABodyLabel(textStyle: .subheadline, textColor: .secondaryLabel)
     private let dateLabel = NABodyLabel(textStyle: .subheadline, textColor: .secondaryLabel)
     private let titleLabel = NATitleLabel(textAlignment: .left, textStyle: .title2, fontWeight: .bold)
     private let descriptionLabel = NABodyLabel(textStyle: .body)
     private let contentLabel = NABodyLabel(textStyle: .body)
     private let moreDetailButton = NAButton(title: "More Detail", systemImageName: "safari")
+    private let scrollView = UIScrollView()
+    private let contentView = UIView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,43 +30,49 @@ class DetailViewController: UIViewController {
     }
     
     private func setupUI() {
-        view.addSubview(imageView)
-        view.addSubview(sourceLabel)
-        view.addSubview(dateLabel)
-        view.addSubview(titleLabel)
-        view.addSubview(descriptionLabel)
-        view.addSubview(contentLabel)
-        view.addSubview(moreDetailButton)
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        scrollView.pinToEdges(of: view)
+        contentView.pinToEdges(of: scrollView)
+        scrollView.showsVerticalScrollIndicator = false
         
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        
+        contentView.addSubview(detailImageView)
+        contentView.addSubview(sourceLabel)
+        contentView.addSubview(dateLabel)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(descriptionLabel)
+        contentView.addSubview(contentLabel)
+        contentView.addSubview(moreDetailButton)
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
-            imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            imageView.widthAnchor.constraint(equalToConstant: view.bounds.width),
-            imageView.heightAnchor.constraint(equalToConstant: view.bounds.width * 9 / 16),
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            contentView.bottomAnchor.constraint(equalTo: moreDetailButton.bottomAnchor),
             
-            sourceLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 10),
-            sourceLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            detailImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            detailImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            detailImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            detailImageView.widthAnchor.constraint(equalToConstant: view.bounds.width),
+            detailImageView.heightAnchor.constraint(equalToConstant: view.bounds.width * 9 / 16),
             
-            dateLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 10),
-            dateLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            sourceLabel.topAnchor.constraint(equalTo: detailImageView.bottomAnchor, constant: 10),
+            sourceLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            
+            dateLabel.topAnchor.constraint(equalTo: detailImageView.bottomAnchor, constant: 10),
+            dateLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             
             titleLabel.topAnchor.constraint(equalTo: sourceLabel.bottomAnchor, constant: 10),
-            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             
             descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
-            descriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            descriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             
             contentLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 10),
-            contentLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            contentLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            contentLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            contentLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             
             moreDetailButton.topAnchor.constraint(equalTo: contentLabel.bottomAnchor, constant: 20),
-            moreDetailButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            moreDetailButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
         ])
         
         moreDetailButton.addTarget(self, action: #selector(moreDetailsButtonTapped), for: .touchUpInside)
@@ -96,13 +97,13 @@ class DetailViewController: UIViewController {
         if let imageUrl = article.urlToImage, let url = URL(string: imageUrl) {
             let placeholderImage = UIImage(systemName: "newspaper")?.withRenderingMode(.alwaysTemplate)
             
-            imageView.sd_setImage(with: url, placeholderImage: placeholderImage)
-            imageView.tintColor = .systemGray
+            detailImageView.sd_setImage(with: url, placeholderImage: placeholderImage)
+            detailImageView.tintColor = .systemGray
         } else {
             let defaultImage = UIImage(systemName: "newspaper")?.withRenderingMode(.alwaysTemplate)
             
-            imageView.image = defaultImage
-            imageView.tintColor = .systemGray
+            detailImageView.image = defaultImage
+            detailImageView.tintColor = .systemGray
         }
     }
     
