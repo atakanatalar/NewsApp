@@ -54,23 +54,7 @@ class DetailViewController: UIViewController {
         return label
     }()
     
-    private let MoreDetailButton: UIButton = {
-        let button = UIButton()
-        var buttonConfiguration = UIButton.Configuration.filled()
-        buttonConfiguration.title = "More Detail"
-        buttonConfiguration.image = UIImage(systemName: "safari")
-        buttonConfiguration.imagePadding = 6
-        buttonConfiguration.imagePlacement = .trailing
-        buttonConfiguration.baseBackgroundColor = .secondarySystemBackground
-        buttonConfiguration.baseForegroundColor = .label
-        buttonConfiguration.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 20, bottom: 12, trailing: 20)
-        button.configuration = buttonConfiguration
-        button.layer.borderWidth = 1.5
-        button.layer.borderColor = UIColor.label.cgColor
-        button.layer.cornerRadius = 20
-        button.addTarget(self, action: #selector(moreDetailsButtonTapped), for: .touchUpInside)
-        return button
-    }()
+    private let moreDetailButton = NAButton(title: "More Detail", systemImageName: "safari")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,7 +71,7 @@ class DetailViewController: UIViewController {
         view.addSubview(titleLabel)
         view.addSubview(descriptionLabel)
         view.addSubview(contentLabel)
-        view.addSubview(MoreDetailButton)
+        view.addSubview(moreDetailButton)
         
         imageView.translatesAutoresizingMaskIntoConstraints = false
         sourceLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -95,7 +79,6 @@ class DetailViewController: UIViewController {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         contentLabel.translatesAutoresizingMaskIntoConstraints = false
-        MoreDetailButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
@@ -122,10 +105,11 @@ class DetailViewController: UIViewController {
             contentLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             contentLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             
-            MoreDetailButton.topAnchor.constraint(equalTo: contentLabel.bottomAnchor, constant: 20),
-            MoreDetailButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            moreDetailButton.topAnchor.constraint(equalTo: contentLabel.bottomAnchor, constant: 20),
+            moreDetailButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
         
+        moreDetailButton.addTarget(self, action: #selector(moreDetailsButtonTapped), for: .touchUpInside)
         setupFavoriteButton()
     }
     

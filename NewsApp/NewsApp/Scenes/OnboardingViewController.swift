@@ -9,7 +9,7 @@ import UIKit
 
 class OnboardingViewController: UIViewController {
     private let pageControl = UIPageControl()
-    private let startButton = UIButton()
+    private let startButton = NAButton(title: "Start", systemImageName: "arrow.right.circle")
     private var pages: [UIViewController] = []
     
     private lazy var pageViewController: UIPageViewController = {
@@ -64,22 +64,7 @@ class OnboardingViewController: UIViewController {
         ])
         
         view.addSubview(startButton)
-        
-        var buttonConfiguration = UIButton.Configuration.filled()
-        buttonConfiguration.title = "Start"
-        buttonConfiguration.image = UIImage(systemName: "arrow.right.circle")
-        buttonConfiguration.imagePadding = 6
-        buttonConfiguration.imagePlacement = .trailing
-        buttonConfiguration.baseBackgroundColor = .secondarySystemBackground
-        buttonConfiguration.baseForegroundColor = .label
-        buttonConfiguration.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 20, bottom: 12, trailing: 20)
-
-        startButton.configuration = buttonConfiguration
-        startButton.layer.borderWidth = 1.5
-        startButton.layer.borderColor = UIColor.label.cgColor
-        startButton.layer.cornerRadius = 20
         startButton.addTarget(self, action: #selector(didTapStartButton), for: .touchUpInside)
-        startButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             startButton.bottomAnchor.constraint(equalTo: pageControl.topAnchor, constant: -40),
             startButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
