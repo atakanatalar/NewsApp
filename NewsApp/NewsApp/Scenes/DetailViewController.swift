@@ -19,41 +19,11 @@ class DetailViewController: UIViewController {
         return imageView
     }()
     
-    private let sourceLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        label.textColor = .systemGray
-        return label
-    }()
-    
-    private let dateLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        label.textColor = .systemGray
-        return label
-    }()
-    
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
-        label.numberOfLines = 0
-        return label
-    }()
-    
-    private let contentLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
-        label.numberOfLines = 0
-        return label
-    }()
-    
-    private let descriptionLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
-        label.numberOfLines = 0
-        return label
-    }()
-    
+    private let sourceLabel = NABodyLabel(textStyle: .subheadline, textColor: .secondaryLabel)
+    private let dateLabel = NABodyLabel(textStyle: .subheadline, textColor: .secondaryLabel)
+    private let titleLabel = NATitleLabel(textAlignment: .left, textStyle: .title2, fontWeight: .bold)
+    private let descriptionLabel = NABodyLabel(textStyle: .body)
+    private let contentLabel = NABodyLabel(textStyle: .body)
     private let moreDetailButton = NAButton(title: "More Detail", systemImageName: "safari")
     
     override func viewDidLoad() {
@@ -74,11 +44,6 @@ class DetailViewController: UIViewController {
         view.addSubview(moreDetailButton)
         
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        sourceLabel.translatesAutoresizingMaskIntoConstraints = false
-        dateLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
-        contentLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),

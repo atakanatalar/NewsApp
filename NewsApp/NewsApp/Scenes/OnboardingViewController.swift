@@ -74,30 +74,19 @@ class OnboardingViewController: UIViewController {
     private func createPage(title: String, description: String, imageName: String) -> UIViewController {
         let vc = UIViewController()
         let imageView = UIImageView(image: UIImage(systemName: imageName))
-        let titleLabel = UILabel()
-        let descriptionLabel = UILabel()
+        let titleLabel = NATitleLabel(textStyle: .title1, fontWeight: .bold)
+        let descriptionLabel = NASecondaryTitleLabel(textStyle: .title3, fontWeight: .regular)
         
         imageView.tintColor = .label
         imageView.contentMode = .scaleAspectFill
         
         titleLabel.text = title
-        titleLabel.textAlignment = .center
-        titleLabel.font = UIFont.systemFont(ofSize: 28, weight: .bold)
-        titleLabel.textColor = .label
-        titleLabel.numberOfLines = 0
-        
         descriptionLabel.text = description
-        descriptionLabel.textAlignment = .center
-        descriptionLabel.font = UIFont.systemFont(ofSize: 20, weight: .regular)
-        descriptionLabel.textColor = .secondaryLabel
-        descriptionLabel.numberOfLines = 0
         
         vc.view.addSubview(titleLabel)
         vc.view.addSubview(descriptionLabel)
         vc.view.addSubview(imageView)
         
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([

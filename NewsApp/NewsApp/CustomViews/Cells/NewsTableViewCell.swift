@@ -9,20 +9,8 @@ import UIKit
 import SDWebImage
 
 class NewsTableViewCell: UITableViewCell {
-    
-    let titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-        label.numberOfLines = 3
-        return label
-    }()
-    
-    let detailsLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
-        label.textColor = .gray
-        return label
-    }()
+    let titleLabel = NATitleLabel(textAlignment: .left, textStyle: .body, fontWeight: .bold)
+    let detailsLabel = NABodyLabel(textStyle: .footnote, textColor: .secondaryLabel)
     
     let newsImageView: UIImageView = {
         let imageView = UIImageView()
@@ -42,8 +30,6 @@ class NewsTableViewCell: UITableViewCell {
         contentView.addSubview(detailsLabel)
         
         newsImageView.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        detailsLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             newsImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
@@ -67,6 +53,7 @@ class NewsTableViewCell: UITableViewCell {
     
     func configure(with article: Article) {
         titleLabel.text = article.title
+        titleLabel.numberOfLines = 3
         
         var dateStr = "Unknown Date"
         
