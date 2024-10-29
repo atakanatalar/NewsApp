@@ -10,6 +10,7 @@ import SafariServices
 
 class DetailViewController: UIViewController {
     var article: Article?
+    private let favoriteButton = UIBarButtonItem()
     
     private let imageView: UIImageView = {
         let imageView = UIImageView()
@@ -53,12 +54,27 @@ class DetailViewController: UIViewController {
         return label
     }()
     
+    private let MoreDetailButton: UIButton = {
+        let button = UIButton()
+        var buttonConfiguration = UIButton.Configuration.filled()
+        buttonConfiguration.title = "More Detail"
+        buttonConfiguration.image = UIImage(systemName: "safari")
+        buttonConfiguration.imagePadding = 6
+        buttonConfiguration.imagePlacement = .trailing
+        buttonConfiguration.baseBackgroundColor = .secondarySystemBackground
+        buttonConfiguration.baseForegroundColor = .label
+        buttonConfiguration.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 20, bottom: 12, trailing: 20)
+        button.configuration = buttonConfiguration
+        button.layer.borderWidth = 1.5
+        button.layer.borderColor = UIColor.label.cgColor
+        button.layer.cornerRadius = 20
+        button.addTarget(self, action: #selector(moreDetailsButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = .secondarySystemBackground
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "safari"), style: .plain, target: self, action: #selector(openArticleURL))
         
         setupUI()
         configureView()
@@ -71,6 +87,7 @@ class DetailViewController: UIViewController {
         view.addSubview(titleLabel)
         view.addSubview(descriptionLabel)
         view.addSubview(contentLabel)
+        view.addSubview(MoreDetailButton)
         
         imageView.translatesAutoresizingMaskIntoConstraints = false
         sourceLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -78,6 +95,7 @@ class DetailViewController: UIViewController {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         contentLabel.translatesAutoresizingMaskIntoConstraints = false
+        MoreDetailButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
@@ -87,23 +105,28 @@ class DetailViewController: UIViewController {
             imageView.heightAnchor.constraint(equalToConstant: view.bounds.width * 9 / 16),
             
             sourceLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 10),
-            sourceLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            sourceLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             
             dateLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 10),
-            dateLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            dateLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             
             titleLabel.topAnchor.constraint(equalTo: sourceLabel.bottomAnchor, constant: 10),
-            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             
             descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
-            descriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-            descriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            descriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            descriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             
             contentLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 10),
-            contentLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-            contentLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            contentLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            contentLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            
+            MoreDetailButton.topAnchor.constraint(equalTo: contentLabel.bottomAnchor, constant: 20),
+            MoreDetailButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
+        
+        setupFavoriteButton()
     }
     
     private func configureView() {
@@ -134,7 +157,7 @@ class DetailViewController: UIViewController {
         }
     }
     
-    @objc private func openArticleURL() {
+    @objc private func moreDetailsButtonTapped() {
         guard let articleURLString = article?.url, let url = URL(string: articleURLString) else {
             print("Invalid URL")
             return
@@ -142,6 +165,34 @@ class DetailViewController: UIViewController {
         
         let safariVC = SFSafariViewController(url: url)
         present(safariVC, animated: true, completion: nil)
+    }
+    
+    private func setupFavoriteButton() {
+        updateFavoriteButtonState()
+        favoriteButton.target = self
+        favoriteButton.action = #selector(toggleFavorite)
+        
+        navigationItem.rightBarButtonItem = favoriteButton
+    }
+    
+    private func updateFavoriteButtonState() {
+        if let article = article, FavoriteManager.shared.isFavorite(article) {
+            favoriteButton.image = UIImage(systemName: "bookmark.fill")
+        } else {
+            favoriteButton.image = UIImage(systemName: "bookmark")
+        }
+    }
+    
+    @objc private func toggleFavorite() {
+        guard let article = article else { return }
+        
+        if FavoriteManager.shared.isFavorite(article) {
+            FavoriteManager.shared.removeArticle(article)
+        } else {
+            FavoriteManager.shared.saveArticle(article)
+        }
+        
+        updateFavoriteButtonState()
     }
 }
 

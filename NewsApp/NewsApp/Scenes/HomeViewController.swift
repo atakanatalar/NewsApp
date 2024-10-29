@@ -26,7 +26,7 @@ class HomeViewController: UIViewController {
     
     private func setupUI() {
         view.backgroundColor = .secondarySystemBackground
-        title = "News App"
+        title = "News"
         navigationController?.navigationBar.prefersLargeTitles = true
         
         setupSearchController()
@@ -35,6 +35,7 @@ class HomeViewController: UIViewController {
         setupTableView()
         setupActivityIndicator()
         setupRefreshControl()
+        setupFavoritesButton()
     }
     
     private func setupSearchController() {
@@ -95,6 +96,16 @@ class HomeViewController: UIViewController {
         }
         
         refreshControl.endRefreshing()
+    }
+    
+    private func setupFavoritesButton() {
+        let favoritesButton = UIBarButtonItem(image: UIImage(systemName: "bookmark.fill"), style: .plain, target: self, action: #selector(showFavorites))
+        navigationItem.rightBarButtonItem = favoritesButton
+    }
+
+    @objc private func showFavorites() {
+        let favoritesVC = FavoritesViewController()
+        navigationController?.pushViewController(favoritesVC, animated: true)
     }
 }
 
