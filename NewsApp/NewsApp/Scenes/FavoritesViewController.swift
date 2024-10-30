@@ -6,10 +6,12 @@
 //
 
 import UIKit
+import Toast
 
 class FavoritesViewController: NADataLoadingViewController {
     private let tableView = UITableView()
     private var favoriteArticles: [Article] = []
+    private let feedbackGenerator = UINotificationFeedbackGenerator()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,11 +39,19 @@ class FavoritesViewController: NADataLoadingViewController {
     private func loadFavorites() {
         PersistenceManager.retrieveFavorites { [weak self] result in
             guard let self = self else { return }
+            
             switch result {
             case .success(let favorites):
                 self.updateUI(with: favorites)
             case .failure(let error):
-                print("Error loading favorites: \(error.rawValue)")
+                DispatchQueue.main.async {
+                    let toast = Toast.default(
+                        image: UIImage(systemName: "exclamationmark.triangle.fill")!,
+                        title: "Something Went Wrong",
+                        subtitle: error.localizedDescription
+                    )
+                    toast.show(haptic: .error, after: 0)
+                }
             }
         }
     }
@@ -87,12 +97,21 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
             let articleToDelete = favoriteArticles[indexPath.row]
             PersistenceManager.updateWith(favorite: articleToDelete, actionType: .remove) { [weak self] error in
                 guard let self = self else { return }
+                
                 if let error = error {
-                    print("Failed to remove favorite: \(error.rawValue)")
+                    DispatchQueue.main.async {
+                        let toast = Toast.default(
+                            image: UIImage(systemName: "exclamationmark.triangle.fill")!,
+                            title: "Something Went Wrong",
+                            subtitle: error.localizedDescription
+                        )
+                        toast.show(haptic: .error, after: 0)
+                    }
                 } else {
                     DispatchQueue.main.async {
                         self.favoriteArticles.remove(at: indexPath.row)
                         tableView.deleteRows(at: [indexPath], with: .left)
+                        self.feedbackGenerator.notificationOccurred(.warning)
                         self.loadFavorites()
                     }
                 }

@@ -7,6 +7,7 @@
 
 import UIKit
 import SafariServices
+import Toast
 
 class DetailViewController: UIViewController {
     var article: Article?
@@ -20,6 +21,7 @@ class DetailViewController: UIViewController {
     private let moreDetailButton = NAButton(title: "More Detail", systemImageName: "safari")
     private let scrollView = UIScrollView()
     private let contentView = UIView()
+    private let feedbackGenerator = UINotificationFeedbackGenerator()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -146,20 +148,36 @@ class DetailViewController: UIViewController {
                 let actionType: PersistenceActionType = favorites.contains { $0.url == article.url } ? .remove : .add
                 PersistenceManager.updateWith(favorite: article, actionType: actionType) { [weak self] error in
                     guard error == nil else {
-                        print("Error updating favorites: \(error!.rawValue)")
+                        DispatchQueue.main.async {
+                            let toast = Toast.default(
+                                image: UIImage(systemName: "exclamationmark.triangle.fill")!,
+                                title: "Something Went Wrong",
+                                subtitle: error?.localizedDescription
+                            )
+                            toast.show(haptic: .error, after: 0)
+                        }
                         return
                     }
                     self?.updateFavoriteButtonState()
                     
-                    switch actionType {
-                    case .add:
-                        print("Added")
-                    case .remove:
-                        print("Removed")
+                    DispatchQueue.main.async {
+                        switch actionType {
+                        case .add:
+                            self?.feedbackGenerator.notificationOccurred(.success)
+                        case .remove:
+                            self?.feedbackGenerator.notificationOccurred(.warning)
+                        }
                     }
                 }
             case .failure(let error):
-                print("Error retrieving favorites: \(error.rawValue)")
+                DispatchQueue.main.async {
+                    let toast = Toast.default(
+                        image: UIImage(systemName: "exclamationmark.triangle.fill")!,
+                        title: "Something Went Wrong",
+                        subtitle: error.localizedDescription
+                    )
+                    toast.show(haptic: .error, after: 0)
+                }
             }
         }
     }

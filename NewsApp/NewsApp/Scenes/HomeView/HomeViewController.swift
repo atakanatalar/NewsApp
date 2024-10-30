@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Toast
 
 class HomeViewController: NADataLoadingViewController {
     let searchController = UISearchController()
@@ -119,9 +120,12 @@ extension HomeViewController: HomeViewModelDelegate {
         DispatchQueue.main.async {
             self.dismissLoadingView()
             
-            let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
+            let toast = Toast.default(
+                image: UIImage(systemName: "exclamationmark.triangle.fill")!,
+                title: "Something Went Wrong",
+                subtitle: error.localizedDescription
+            )
+            toast.show(haptic: .error, after: 0)
         }
     }
 }
