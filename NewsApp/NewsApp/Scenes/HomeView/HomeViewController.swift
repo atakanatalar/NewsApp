@@ -7,12 +7,11 @@
 
 import UIKit
 
-class HomeViewController: UIViewController {
+class HomeViewController: NADataLoadingViewController {
     let searchController = UISearchController()
     let categorySegmentedControl = CustomSegmentedControl(segmentTitles: NewsCategory.allCases.map { $0.description })
     let sortOptionSegmentedControl = CustomSegmentedControl(segmentTitles: NewsSortOption.allCases.map { $0.description })
     let tableView = UITableView()
-    let activityIndicator = UIActivityIndicatorView(style: .medium)
     let refreshControl = UIRefreshControl()
     
     private var viewModel = HomeViewModel()
@@ -33,7 +32,6 @@ class HomeViewController: UIViewController {
         setupCategorySegmentedControl()
         setupSortOptionSegmentedControl()
         setupTableView()
-        setupActivityIndicator()
         setupRefreshControl()
         setupFavoritesButton()
     }
@@ -74,13 +72,6 @@ class HomeViewController: UIViewController {
         tableView.frame = view.bounds
     }
     
-    private func setupActivityIndicator() {
-        view.addSubview(activityIndicator)
-        activityIndicator.center = view.center
-        activityIndicator.color = .systemBlue
-        activityIndicator.hidesWhenStopped = true
-    }
-    
     private func setupRefreshControl() {
         tableView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
@@ -113,20 +104,20 @@ extension HomeViewController: HomeViewModelDelegate {
     func didUpdateArticles() {
         DispatchQueue.main.async {
             self.tableView.reloadData()
-            self.activityIndicator.stopAnimating()
+            self.dismissLoadingView()
         }
     }
     
     func didStartLoading() {
         DispatchQueue.main.async {
-            self.activityIndicator.startAnimating()
+            self.showLoadingView()
         }
     }
     
     func didFailLoading(error: NetworkError) {
         print(error.localizedDescription)
         DispatchQueue.main.async {
-            self.activityIndicator.stopAnimating()
+            self.dismissLoadingView()
             
             let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))

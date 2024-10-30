@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FavoritesViewController: UIViewController {
+class FavoritesViewController: NADataLoadingViewController {
     private let tableView = UITableView()
     private var favoriteArticles: [Article] = []
     
@@ -21,6 +21,7 @@ class FavoritesViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         loadFavorites()
     }
     
@@ -34,8 +35,31 @@ class FavoritesViewController: UIViewController {
     }
     
     private func loadFavorites() {
-        favoriteArticles = FavoriteManager.shared.loadFavorites()
-        tableView.reloadData()
+        PersistenceManager.retrieveFavorites { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let favorites):
+                self.updateUI(with: favorites)
+            case .failure(let error):
+                print("Error loading favorites: \(error.rawValue)")
+            }
+        }
+    }
+    
+    func updateUI(with favoriteArticles: [Article]) {
+        self.favoriteArticles = favoriteArticles
+        
+        if self.favoriteArticles.isEmpty {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+                self.showEmptyStateView(with: "You don’t have any favorite news", in: self.view)
+            }
+        } else {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+                self.view.bringSubviewToFront(self.tableView)
+            }
+        }
     }
 }
 
@@ -61,9 +85,18 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let articleToDelete = favoriteArticles[indexPath.row]
-            FavoriteManager.shared.removeArticle(articleToDelete)
-            favoriteArticles.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
+            PersistenceManager.updateWith(favorite: articleToDelete, actionType: .remove) { [weak self] error in
+                guard let self = self else { return }
+                if let error = error {
+                    print("Failed to remove favorite: \(error.rawValue)")
+                } else {
+                    DispatchQueue.main.async {
+                        self.favoriteArticles.remove(at: indexPath.row)
+                        tableView.deleteRows(at: [indexPath], with: .left)
+                        self.loadFavorites()
+                    }
+                }
+            }
         }
     }
     

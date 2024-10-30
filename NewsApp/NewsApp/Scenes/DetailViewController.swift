@@ -126,23 +126,42 @@ class DetailViewController: UIViewController {
     }
     
     private func updateFavoriteButtonState() {
-        if let article = article, FavoriteManager.shared.isFavorite(article) {
-            favoriteButton.image = UIImage(systemName: "bookmark.fill")
-        } else {
-            favoriteButton.image = UIImage(systemName: "bookmark")
+        guard let article = article else { return }
+        PersistenceManager.retrieveFavorites { result in
+            switch result {
+            case .success(let favorites):
+                let isFavorite = favorites.contains { $0.url == article.url }
+                self.favoriteButton.image = UIImage(systemName: isFavorite ? "bookmark.fill" : "bookmark")
+            case .failure:
+                self.favoriteButton.image = UIImage(systemName: "bookmark")
+            }
         }
     }
     
     @objc private func toggleFavorite() {
         guard let article = article else { return }
-        
-        if FavoriteManager.shared.isFavorite(article) {
-            FavoriteManager.shared.removeArticle(article)
-        } else {
-            FavoriteManager.shared.saveArticle(article)
+        PersistenceManager.retrieveFavorites { result in
+            switch result {
+            case .success(let favorites):
+                let actionType: PersistenceActionType = favorites.contains { $0.url == article.url } ? .remove : .add
+                PersistenceManager.updateWith(favorite: article, actionType: actionType) { [weak self] error in
+                    guard error == nil else {
+                        print("Error updating favorites: \(error!.rawValue)")
+                        return
+                    }
+                    self?.updateFavoriteButtonState()
+                    
+                    switch actionType {
+                    case .add:
+                        print("Added")
+                    case .remove:
+                        print("Removed")
+                    }
+                }
+            case .failure(let error):
+                print("Error retrieving favorites: \(error.rawValue)")
+            }
         }
-        
-        updateFavoriteButtonState()
     }
 }
 

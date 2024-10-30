@@ -42,7 +42,6 @@ class HomeViewModel {
     func resetArticles() {
         currentPage = 1
         articles.removeAll()
-        delegate?.didUpdateArticles()
     }
     
     func loadMoreNews(query: String? = nil) {
