@@ -11,6 +11,10 @@ enum PersistenceActionType {
     case add, remove
 }
 
+enum PersistenceError: String, Error {
+    case unableToFavorite = "There was an error favoriting this user. Please try again."
+}
+
 enum PersistenceManager {
     static private let defaults = UserDefaults.standard
     
@@ -18,7 +22,7 @@ enum PersistenceManager {
         static let favorites = "favorites"
     }
     
-    static func updateWith(favorite: Article, actionType: PersistenceActionType, completed: @escaping (NAError?) -> Void) {
+    static func updateWith(favorite: Article, actionType: PersistenceActionType, completed: @escaping (PersistenceError?) -> Void) {
         retrieveFavorites { result in
             switch result {
             case .success(var favorites):
@@ -35,7 +39,7 @@ enum PersistenceManager {
         }
     }
     
-    static func retrieveFavorites(completed: @escaping (Result<[Article], NAError>) -> Void) {
+    static func retrieveFavorites(completed: @escaping (Result<[Article], PersistenceError>) -> Void) {
         guard let favoritesData = defaults.object(forKey: Keys.favorites) as? Data else {
             completed(.success([]))
             return
@@ -50,7 +54,7 @@ enum PersistenceManager {
         }
     }
     
-    static func save(favorites: [Article]) -> NAError? {
+    static func save(favorites: [Article]) -> PersistenceError? {
         do {
             let encoder = JSONEncoder()
             let encodedFavorites = try encoder.encode(favorites)
@@ -60,8 +64,4 @@ enum PersistenceManager {
             return .unableToFavorite
         }
     }
-}
-
-enum NAError: String, Error {
-    case unableToFavorite = "There was an error favoriting this user. Please try again."
 }
