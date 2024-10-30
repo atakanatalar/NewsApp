@@ -28,8 +28,9 @@ class NAButton: UIButton {
         translatesAutoresizingMaskIntoConstraints = false
         
         layer.borderWidth = 1.5
-        layer.borderColor = UIColor.label.cgColor
         layer.cornerRadius = 20
+        layer.masksToBounds = true
+        updateBorderColor()
     }
     
     final func set(title: String, systemImageName: String) {
@@ -42,5 +43,17 @@ class NAButton: UIButton {
         configuration?.imagePlacement = .trailing
         
         configuration?.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 20, bottom: 12, trailing: 20)
+    }
+    
+    private func updateBorderColor() {
+        layer.borderColor = UIColor.label.cgColor
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        if previousTraitCollection?.userInterfaceStyle != traitCollection.userInterfaceStyle {
+            updateBorderColor()
+        }
     }
 }
