@@ -15,11 +15,11 @@ enum NewsSortOption: String, CaseIterable {
     var description: String {
         switch self {
         case .publishedAt:
-            return "Newest"
+            return NewsSortOptionConstants.publishedAt
         case .popularity:
-            return "Popular"
+            return NewsSortOptionConstants.popularity
         case .relevancy:
-            return "Relevant"
+            return NewsSortOptionConstants.relevancy
         }
     }
 }

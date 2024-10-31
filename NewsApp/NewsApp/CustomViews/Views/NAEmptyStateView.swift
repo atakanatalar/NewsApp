@@ -40,7 +40,7 @@ class NAEmptyStateView: UIView {
     
     func configureLogoImageView() {
         addSubview(logoImageView)
-        logoImageView.image = UIImage(systemName: "newspaper")
+        logoImageView.image = UIImage(systemName: SFSymbolsConstants.newspaper)
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         logoImageView.tintColor = .secondaryLabel
         

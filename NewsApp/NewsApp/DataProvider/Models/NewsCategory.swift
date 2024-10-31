@@ -19,19 +19,19 @@ enum NewsCategory: String, CaseIterable {
     var description: String {
         switch self {
         case .general:
-            return "General"
+            return NewsCategoryConstants.general
         case .business:
-            return "Business"
+            return NewsCategoryConstants.business
         case .entertainment:
-            return "Entertainment"
+            return NewsCategoryConstants.entertainment
         case .health:
-            return "Health"
+            return NewsCategoryConstants.health
         case .science:
-            return "Science"
+            return NewsCategoryConstants.science
         case .sports:
-            return "Sports"
+            return NewsCategoryConstants.sports
         case .technology:
-            return "Technology"
+            return NewsCategoryConstants.technology
         }
     }
 }

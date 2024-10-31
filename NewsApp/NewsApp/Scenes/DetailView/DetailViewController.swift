@@ -25,7 +25,7 @@ class DetailViewController: UIViewController {
     private let titleLabel = NATitleLabel(textAlignment: .left, textStyle: .title2, fontWeight: .bold)
     private let descriptionLabel = NABodyLabel(textStyle: .body)
     private let contentLabel = NABodyLabel(textStyle: .body)
-    private let moreDetailButton = NAButton(title: "More Detail", systemImageName: "safari")
+    private let moreDetailButton = NAButton(title: DetailViewConstants.moreDetailButtonTitle, systemImageName: SFSymbolsConstants.safari)
     private let scrollView = UIScrollView()
     private let contentView = UIView()
     private let feedbackGenerator = UINotificationFeedbackGenerator()
@@ -116,7 +116,7 @@ class DetailViewController: UIViewController {
     }
     
     private func updateFavoriteButtonState() {
-        favoriteButton.image = UIImage(systemName: viewModel?.favoriteIconName ?? "bookmark")
+        favoriteButton.image = UIImage(systemName: viewModel?.favoriteIconName ?? SFSymbolsConstants.bookmark)
     }
     
     @objc private func toggleFavorite() {
@@ -128,8 +128,8 @@ class DetailViewController: UIViewController {
                     self?.feedbackGenerator.notificationOccurred(self?.viewModel?.isFavorite == true ? .success : .warning)
                 case .failure(let error):
                     let toast = Toast.default(
-                        image: UIImage(systemName: "exclamationmark.triangle.fill")!,
-                        title: "Something Went Wrong",
+                        image: UIImage(systemName: SFSymbolsConstants.error)!,
+                        title: ToastConstants.errorTitle,
                         subtitle: error.localizedDescription
                     )
                     toast.show(haptic: .error, after: 0)
@@ -141,9 +141,9 @@ class DetailViewController: UIViewController {
     @objc private func moreDetailsButtonTapped() {
         guard let articleURLString = viewModel?.articleURL, let url = URL(string: articleURLString) else {
             let toast = Toast.default(
-                image: UIImage(systemName: "exclamationmark.triangle.fill")!,
-                title: "Something Went Wrong",
-                subtitle: "Unable to access the relevant news"
+                image: UIImage(systemName: SFSymbolsConstants.error)!,
+                title: ToastConstants.errorTitle,
+                subtitle: DetailViewConstants.moreDetailErrorMessage
             )
             toast.show(haptic: .error, after: 0)
             return

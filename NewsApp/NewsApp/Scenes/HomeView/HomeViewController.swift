@@ -26,7 +26,7 @@ class HomeViewController: NADataLoadingViewController {
     
     private func setupUI() {
         view.backgroundColor = .secondarySystemBackground
-        title = "News"
+        title = HomeViewConstants.title
         navigationController?.navigationBar.prefersLargeTitles = true
         
         setupSearchController()
@@ -40,7 +40,7 @@ class HomeViewController: NADataLoadingViewController {
     private func setupSearchController() {
         searchController.delegate = self
         searchController.searchResultsUpdater = self
-        searchController.searchBar.placeholder = "Search"
+        searchController.searchBar.placeholder = HomeViewConstants.searchPlaceholder
         searchController.obscuresBackgroundDuringPresentation = false
         navigationItem.searchController = searchController
     }
@@ -67,7 +67,7 @@ class HomeViewController: NADataLoadingViewController {
         view.addSubview(tableView)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(NewsTableViewCell.self, forCellReuseIdentifier: "NewsCell")
+        tableView.register(NewsTableViewCell.self, forCellReuseIdentifier: HomeViewConstants.tableViewCellID)
         tableView.backgroundColor = .secondarySystemBackground
         tableView.tableHeaderView = categorySegmentedControl
         tableView.frame = view.bounds
@@ -91,10 +91,10 @@ class HomeViewController: NADataLoadingViewController {
     }
     
     private func setupFavoritesButton() {
-        let favoritesButton = UIBarButtonItem(image: UIImage(systemName: "bookmark.fill"), style: .plain, target: self, action: #selector(showFavorites))
+        let favoritesButton = UIBarButtonItem(image: UIImage(systemName: SFSymbolsConstants.bookmarkFill), style: .plain, target: self, action: #selector(showFavorites))
         navigationItem.rightBarButtonItem = favoritesButton
     }
-
+    
     @objc private func showFavorites() {
         let favoritesVC = FavoritesViewController()
         navigationController?.pushViewController(favoritesVC, animated: true)
@@ -121,8 +121,8 @@ extension HomeViewController: HomeViewModelDelegate {
             self.dismissLoadingView()
             
             let toast = Toast.default(
-                image: UIImage(systemName: "exclamationmark.triangle.fill")!,
-                title: "Something Went Wrong",
+                image: UIImage(systemName: SFSymbolsConstants.error)!,
+                title: ToastConstants.errorTitle,
                 subtitle: error.localizedDescription
             )
             toast.show(haptic: .error, after: 0)
@@ -140,7 +140,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
             return UITableViewCell()
         }
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "NewsCell", for: indexPath) as? NewsTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: HomeViewConstants.tableViewCellID, for: indexPath) as? NewsTableViewCell else {
             return UITableViewCell()
         }
         

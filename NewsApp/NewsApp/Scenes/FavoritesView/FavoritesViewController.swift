@@ -16,7 +16,7 @@ class FavoritesViewController: NADataLoadingViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .secondarySystemBackground
-        title = "Favorites"
+        title = FavoritesViewConstants.title
         
         setupTableView()
     }
@@ -32,7 +32,7 @@ class FavoritesViewController: NADataLoadingViewController {
         tableView.backgroundColor = .secondarySystemBackground
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(NewsTableViewCell.self, forCellReuseIdentifier: "FavoriteCell")
+        tableView.register(NewsTableViewCell.self, forCellReuseIdentifier: FavoritesViewConstants.tableViewCellID)
     }
     
     private func loadFavorites() {
@@ -44,8 +44,8 @@ class FavoritesViewController: NADataLoadingViewController {
                 self.updateUI(with: favorites)
             case .failure(let error):
                 let toast = Toast.default(
-                    image: UIImage(systemName: "exclamationmark.triangle.fill")!,
-                    title: "Something Went Wrong",
+                    image: UIImage(systemName: SFSymbolsConstants.error)!,
+                    title: ToastConstants.errorTitle,
                     subtitle: error.localizedDescription
                 )
                 toast.show(haptic: .error, after: 0)
@@ -57,7 +57,7 @@ class FavoritesViewController: NADataLoadingViewController {
         if favoriteArticles.isEmpty {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
-                self.showEmptyStateView(with: "You don’t have any favorite news", in: self.view)
+                self.showEmptyStateView(with: FavoritesViewConstants.emptyStateMessage, in: self.view)
             }
         } else {
             DispatchQueue.main.async {
@@ -74,7 +74,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "FavoriteCell", for: indexPath) as! NewsTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: FavoritesViewConstants.tableViewCellID, for: indexPath) as! NewsTableViewCell
         let article = viewModel.favoriteArticles[indexPath.row]
         cell.configure(with: article)
         return cell
@@ -101,8 +101,8 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                     }
                 case .failure(let error):
                     let toast = Toast.default(
-                        image: UIImage(systemName: "exclamationmark.triangle.fill")!,
-                        title: "Something Went Wrong",
+                        image: UIImage(systemName: SFSymbolsConstants.error)!,
+                        title: ToastConstants.errorTitle,
                         subtitle: error.localizedDescription
                     )
                     toast.show(haptic: .error, after: 0)

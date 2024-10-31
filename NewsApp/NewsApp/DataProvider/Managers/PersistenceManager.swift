@@ -11,8 +11,15 @@ enum PersistenceActionType {
     case add, remove
 }
 
-enum PersistenceError: String, Error {
-    case unableToFavorite = "There was an error favoriting this user. Please try again."
+enum PersistenceError: Error {
+    case unableToFavorite
+    
+    var localizedDescription: String {
+        switch self {
+        case .unableToFavorite:
+            PersistenceErrorConstants.unableToFavorite
+        }
+    }
 }
 
 enum PersistenceManager {

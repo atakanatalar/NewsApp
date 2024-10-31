@@ -13,13 +13,13 @@ struct DateHelper {
         let difference = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: date, to: now)
         
         if let days = difference.day, days > 0 {
-            return "\(days) days ago"
+            return "\(days) \(DateHelperConstant.daysAgo)"
         } else if let hours = difference.hour, hours > 0 {
-            return "\(hours) hours ago"
+            return "\(hours) \(DateHelperConstant.hoursAgo)"
         } else if let minutes = difference.minute, minutes > 0 {
-            return "\(minutes) minutes ago"
+            return "\(minutes) \(DateHelperConstant.minutesAgo)"
         } else {
-            return "Now"
+            return DateHelperConstant.now
         }
     }
     
@@ -34,7 +34,7 @@ struct DateHelper {
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
         
         guard let date = dateFormatter.date(from: dateString) else {
-            return "Unknown Date"
+            return DateHelperConstant.unknownDate
         }
         
         dateFormatter.dateStyle = .medium

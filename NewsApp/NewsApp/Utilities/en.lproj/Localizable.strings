@@ -1,0 +1,79 @@
+/*
+ Localizable.strings
+ NewsApp
+ 
+ Created by Atakan Atalar on 31.10.2024.
+ 
+ */
+
+//MARK: - Onboarding View
+"onboarding_start_button_title" = "Start";
+"onboarding_page_1_title" = "Welcome!";
+"onboarding_page_1_description" = "Thank you for joining our news app, explore the news";
+"onboarding_page_2_title" = "News Categories";
+"onboarding_page_2_description" = "Easily view news in different categories and discover based on your interests";
+"onboarding_page_3_title" = "Search for News";
+"onboarding_page_3_description" = "Find news articles that interest you by using the search function";
+
+//MARK: - Home View
+"home_title" = "News";
+"home_search_placeholder" = "Search";
+"home_table_view_cell_id" = "NewsCell";
+
+//MARK: - Favorites View
+"favorites_title" = "Favorites";
+"favorites_table_view_cell_id" = "FavoriteCell";
+"favorites_empty_state_message" = "You don’t have any favorite news";
+
+//MARK: - Detail View
+"detail_more_detail_button_title" = "More Detail";
+"detail_more_error_message" = "Unable to access the relevant news";
+
+//MARK: - News Table View Cell
+"news_cell_unknown_date_label" = "Unknown Date";
+"news_cell_unknown_source_label" = "Unknown Source";
+
+//MARK: - Toast
+"toast_error_title" = "Something Went Wrong";
+
+//MARK: - SF Symbols
+"symbol_arrow_right_circle" = "arrow.right.circle";
+"symbol_newspaper" = "newspaper";
+"symbol_grid" = "grid";
+"symbol_magnifyingglass" = "magnifyingglass";
+"symbol_bookmark.fill" = "bookmark.fill";
+"symbol_bookmark" = "bookmark";
+"symbol_safari" = "safari";
+"symbol_exclamationmark.triangle.fill" = "exclamationmark.triangle.fill";
+
+//MARK: - User Defaults
+"user_defaults_onboarding_for_key" = "hasSeenOnboarding";
+
+//MARK: - Date Helpers
+"date_helpers_days" = "days ago";
+"date_helpers_hours" = "hours ago";
+"date_helpers_minutes" = "minutes ago";
+"date_helpers_now" = "Now";
+"date_helpers_unknown_date" = "Unknown Date";
+
+//MARK: - News Category
+"news_category_general" = "General";
+"news_category_business" = "Business";
+"news_category_entertainment" = "Entertainment";
+"news_category_health" = "Health";
+"news_category_science" = "Science";
+"news_category_sports" = "Sports";
+"news_category_technology" = "Technology";
+
+//MARK: - News Sort Option
+"news_sort_option_published_at" = "Newest";
+"news_sort_option_popularity" = "Popular";
+"news_sort_option_relevancy" = "Relevant";
+
+//MARK: - Network Error
+"network_error_bad_URL" = "Invalid URL, please try again";
+"network_error_request_failed" = "Request failed, check your connection";
+"network_error_decoding_error" = "Data error, please try later";
+
+//MARK: - Persistence Error
+"persistence_error_unable_to_favorite" = "There was an error favoriting this user";

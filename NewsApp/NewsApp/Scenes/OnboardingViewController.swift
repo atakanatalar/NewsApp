@@ -9,7 +9,7 @@ import UIKit
 
 class OnboardingViewController: UIViewController {
     private let pageControl = UIPageControl()
-    private let startButton = NAButton(title: "Start", systemImageName: "arrow.right.circle")
+    private let startButton = NAButton(title: OnboardingViewConstants.startButtonTitle, systemImageName: SFSymbolsConstants.arrow)
     private var pages: [UIViewController] = []
     
     private lazy var pageViewController: UIPageViewController = {
@@ -28,19 +28,19 @@ class OnboardingViewController: UIViewController {
     
     private func setupPages() {
         let page1 = createPage(
-            title: "Welcome!",
-            description: "Thank you for joining our news app. Explore the news",
-            imageName: "newspaper"
+            title: OnboardingViewConstants.firstPageTitle,
+            description: OnboardingViewConstants.firstPageDescription,
+            imageName: SFSymbolsConstants.newspaper
         )
         let page2 = createPage(
-            title: "News Categories",
-            description: "Easily view news in different categories and discover based on your interests",
-            imageName: "grid"
+            title: OnboardingViewConstants.secondPageTitle,
+            description: OnboardingViewConstants.secondPageDescription,
+            imageName: SFSymbolsConstants.grid
         )
         let page3 = createPage(
-            title: "Search for News",
-            description: "Find news articles that interest you by using the search function",
-            imageName: "magnifyingglass"
+            title: OnboardingViewConstants.thirdPageTitle,
+            description: OnboardingViewConstants.thirdPageDescription,
+            imageName: SFSymbolsConstants.magnifyingglass
         )
         
         pages = [page1, page2, page3]

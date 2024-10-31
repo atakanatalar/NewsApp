@@ -13,11 +13,11 @@ class DetailViewModel {
     
     var isFavorite: Bool = false {
         didSet {
-            favoriteIconName = isFavorite ? "bookmark.fill" : "bookmark"
+            favoriteIconName = isFavorite ? SFSymbolsConstants.bookmarkFill : SFSymbolsConstants.bookmark
         }
     }
     
-    var favoriteIconName: String = "bookmark"
+    var favoriteIconName: String = SFSymbolsConstants.bookmark
     
     var title: String? { article.title }
     var description: String? { article.description }
@@ -64,6 +64,6 @@ class DetailViewModel {
     }
     
     func getDefaultImage() -> UIImage {
-        return UIImage(systemName: "newspaper")?.withRenderingMode(.alwaysTemplate) ?? UIImage()
+        return UIImage(systemName: SFSymbolsConstants.newspaper)?.withRenderingMode(.alwaysTemplate) ?? UIImage()
     }
 }

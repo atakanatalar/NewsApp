@@ -1,0 +1,79 @@
+/*
+ Localizable.strings
+ NewsApp
+ 
+ Created by Atakan Atalar on 31.10.2024.
+ 
+ */
+
+//MARK: - Onboarding View
+"onboarding_start_button_title" = "Başla";
+"onboarding_page_1_title" = "Hoş Geldiniz!";
+"onboarding_page_1_description" = "Haber uygulamamıza katıldığınız için teşekkürler, haberleri keşfedin";
+"onboarding_page_2_title" = "Haber Kategorileri";
+"onboarding_page_2_description" = "Farklı kategorilerdeki haberleri kolayca görüntüleyin ve ilgi alanlarınıza göre keşfedin";
+"onboarding_page_3_title" = "Haber Ara";
+"onboarding_page_3_description" = "İlginizi çeken haber makalelerini bulmak için arama fonksiyonunu kullanın";
+
+//MARK: - Home View
+"home_title" = "Haberler";
+"home_search_placeholder" = "Ara";
+"home_table_view_cell_id" = "NewsCell";
+
+//MARK: - Favorites View
+"favorites_title" = "Favoriler";
+"favorites_table_view_cell_id" = "FavoriteCell";
+"favorites_empty_state_message" = "Favori haberiniz yok";
+
+//MARK: - Detail View
+"detail_more_detail_button_title" = "Daha Fazla Detay";
+"detail_more_error_message" = "İlgili habere ulaşılamıyor";
+
+//MARK: - News Table View Cell
+"news_cell_unknown_date_label" = "Bilinmeyen Tarih";
+"news_cell_unknown_source_label" = "Bilinmeyen Kaynak";
+
+//MARK: - Toast
+"toast_error_title" = "Bir Şeyler Yanlış Gitti";
+
+//MARK: - SF Symbols
+"symbol_arrow_right_circle" = "arrow.right.circle";
+"symbol_newspaper" = "newspaper";
+"symbol_grid" = "grid";
+"symbol_magnifyingglass" = "magnifyingglass";
+"symbol_bookmark.fill" = "bookmark.fill";
+"symbol_bookmark" = "bookmark";
+"symbol_safari" = "safari";
+"symbol_exclamationmark.triangle.fill" = "exclamationmark.triangle.fill";
+
+//MARK: - User Defaults
+"user_defaults_onboarding_for_key" = "hasSeenOnboarding";
+
+//MARK: - Date Helpers
+"date_helpers_days" = "gün önce";
+"date_helpers_hours" = "saat önce";
+"date_helpers_minutes" = "dakika önce";
+"date_helpers_now" = "Şimdi";
+"date_helpers_unknown_date" = "Bilinmeyen Tarih";
+
+//MARK: - News Category
+"news_category_general" = "Genel";
+"news_category_business" = "İş";
+"news_category_entertainment" = "Eğlence";
+"news_category_health" = "Sağlık";
+"news_category_science" = "Bilim";
+"news_category_sports" = "Spor";
+"news_category_technology" = "Teknoloji";
+
+//MARK: - News Sort Option
+"news_sort_option_published_at" = "En Yeni";
+"news_sort_option_popularity" = "Popüler";
+"news_sort_option_relevancy" = "İlgili";
+
+//MARK: - Network Error
+"network_error_bad_URL" = "Geçersiz URL, tekrar deneyin";
+"network_error_request_failed" = "İstek başarısız, bağlantınızı kontrol edin";
+"network_error_decoding_error" = "Veri hatası, tekrar deneyin";
+
+//MARK: - Persistence Error
+"persistence_error_unable_to_favorite" = "Bu kullanıcıyı favorilere eklerken bir hata oluştu";

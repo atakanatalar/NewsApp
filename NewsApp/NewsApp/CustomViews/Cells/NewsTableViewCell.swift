@@ -45,7 +45,7 @@ class NewsTableViewCell: UITableViewCell {
         titleLabel.text = article.title
         titleLabel.numberOfLines = 3
         
-        var dateStr = "Unknown Date"
+        var dateStr = NewsTableViewCellConstants.unknownDateLabel
         
         if let publishedAtString = article.publishedAt,
            let publishedAtDate = DateHelper.dateFromString(publishedAtString) {
@@ -55,16 +55,16 @@ class NewsTableViewCell: UITableViewCell {
         if let source = article.source?.name {
             detailsLabel.text = "\(dateStr) | \(source)"
         } else {
-            detailsLabel.text = "\(dateStr) | Unknown Source"
+            detailsLabel.text = "\(dateStr) | \(NewsTableViewCellConstants.unknownSourceLabel)"
         }
         
         if let imageUrl = article.urlToImage, let url = URL(string: imageUrl) {
-            let placeholderImage = UIImage(systemName: "newspaper")?.withRenderingMode(.alwaysTemplate)
+            let placeholderImage = UIImage(systemName: SFSymbolsConstants.newspaper)?.withRenderingMode(.alwaysTemplate)
             
             newsImageView.sd_setImage(with: url, placeholderImage: placeholderImage)
             newsImageView.tintColor = .systemGray
         } else {
-            let defaultImage = UIImage(systemName: "newspaper")?.withRenderingMode(.alwaysTemplate)
+            let defaultImage = UIImage(systemName: SFSymbolsConstants.newspaper)?.withRenderingMode(.alwaysTemplate)
             
             newsImageView.image = defaultImage
             newsImageView.tintColor = .systemGray

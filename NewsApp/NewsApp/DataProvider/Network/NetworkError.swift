@@ -15,11 +15,11 @@ enum NetworkError: Error {
     var localizedDescription: String {
         switch self {
         case .badURL:
-            return "Invalid URL, please try again"
+            return NetworkErrorConstants.badURL
         case .requestFailed:
-            return "Request failed, check your connection"
+            return NetworkErrorConstants.requestFailed
         case .decodingError:
-            return "Data error, please try later"
+            return NetworkErrorConstants.decodingError
         }
     }
 }
