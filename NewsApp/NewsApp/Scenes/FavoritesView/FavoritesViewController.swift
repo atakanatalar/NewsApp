@@ -9,13 +9,12 @@ import UIKit
 import Toast
 
 class FavoritesViewController: NADataLoadingViewController {
+    private let viewModel = FavoritesViewModel()
     private let tableView = UITableView()
-    private var favoriteArticles: [Article] = []
     private let feedbackGenerator = UINotificationFeedbackGenerator()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = .secondarySystemBackground
         title = "Favorites"
         
@@ -37,29 +36,25 @@ class FavoritesViewController: NADataLoadingViewController {
     }
     
     private func loadFavorites() {
-        PersistenceManager.retrieveFavorites { [weak self] result in
+        viewModel.loadFavorites { [weak self] result in
             guard let self = self else { return }
             
             switch result {
             case .success(let favorites):
                 self.updateUI(with: favorites)
             case .failure(let error):
-                DispatchQueue.main.async {
-                    let toast = Toast.default(
-                        image: UIImage(systemName: "exclamationmark.triangle.fill")!,
-                        title: "Something Went Wrong",
-                        subtitle: error.localizedDescription
-                    )
-                    toast.show(haptic: .error, after: 0)
-                }
+                let toast = Toast.default(
+                    image: UIImage(systemName: "exclamationmark.triangle.fill")!,
+                    title: "Something Went Wrong",
+                    subtitle: error.localizedDescription
+                )
+                toast.show(haptic: .error, after: 0)
             }
         }
     }
     
     func updateUI(with favoriteArticles: [Article]) {
-        self.favoriteArticles = favoriteArticles
-        
-        if self.favoriteArticles.isEmpty {
+        if favoriteArticles.isEmpty {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
                 self.showEmptyStateView(with: "You don’t have any favorite news", in: self.view)
@@ -75,18 +70,18 @@ class FavoritesViewController: NADataLoadingViewController {
 
 extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return favoriteArticles.count
+        return viewModel.favoriteArticles.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FavoriteCell", for: indexPath) as! NewsTableViewCell
-        let article = favoriteArticles[indexPath.row]
+        let article = viewModel.favoriteArticles[indexPath.row]
         cell.configure(with: article)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedArticle = favoriteArticles[indexPath.row]
+        let selectedArticle = viewModel.favoriteArticles[indexPath.row]
         let detailVC = DetailViewController()
         detailVC.article = selectedArticle
         navigationController?.pushViewController(detailVC, animated: true)
@@ -94,26 +89,23 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let articleToDelete = favoriteArticles[indexPath.row]
-            PersistenceManager.updateWith(favorite: articleToDelete, actionType: .remove) { [weak self] error in
+            viewModel.removeFavorite(at: indexPath.row) { [weak self] result in
                 guard let self = self else { return }
                 
-                if let error = error {
+                switch result {
+                case .success:
                     DispatchQueue.main.async {
-                        let toast = Toast.default(
-                            image: UIImage(systemName: "exclamationmark.triangle.fill")!,
-                            title: "Something Went Wrong",
-                            subtitle: error.localizedDescription
-                        )
-                        toast.show(haptic: .error, after: 0)
-                    }
-                } else {
-                    DispatchQueue.main.async {
-                        self.favoriteArticles.remove(at: indexPath.row)
                         tableView.deleteRows(at: [indexPath], with: .left)
-                        self.feedbackGenerator.notificationOccurred(.warning)
+                        self.feedbackGenerator.notificationOccurred(.success)
                         self.loadFavorites()
                     }
+                case .failure(let error):
+                    let toast = Toast.default(
+                        image: UIImage(systemName: "exclamationmark.triangle.fill")!,
+                        title: "Something Went Wrong",
+                        subtitle: error.localizedDescription
+                    )
+                    toast.show(haptic: .error, after: 0)
                 }
             }
         }
