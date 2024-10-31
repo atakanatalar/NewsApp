@@ -10,7 +10,14 @@ import SafariServices
 import Toast
 
 class DetailViewController: UIViewController {
-    var article: Article?
+    var article: Article? {
+        didSet {
+            guard let article = article else { return }
+            viewModel = DetailViewModel(article: article)
+        }
+    }
+    
+    private var viewModel: DetailViewModel?
     private let favoriteButton = UIBarButtonItem()
     private let detailImageView = NAImageView(contentMode: .scaleAspectFit)
     private let sourceLabel = NABodyLabel(textStyle: .subheadline, textColor: .secondaryLabel)
@@ -45,6 +52,7 @@ class DetailViewController: UIViewController {
         contentView.addSubview(descriptionLabel)
         contentView.addSubview(contentLabel)
         contentView.addSubview(moreDetailButton)
+        
         NSLayoutConstraint.activate([
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             contentView.bottomAnchor.constraint(equalTo: moreDetailButton.bottomAnchor),
@@ -82,95 +90,43 @@ class DetailViewController: UIViewController {
     }
     
     private func configureView() {
-        guard let article = article else { return }
+        guard let viewModel = viewModel else { return }
         
-        titleLabel.text = article.title
-        descriptionLabel.text = article.description
-        contentLabel.text = article.content
+        titleLabel.text = viewModel.title
+        descriptionLabel.text = viewModel.description
+        contentLabel.text = viewModel.content
+        dateLabel.text = viewModel.dateText
+        sourceLabel.text = viewModel.source
         
-        if let publishedAt = article.publishedAt {
-            dateLabel.text = DateHelper.formatDateString(publishedAt)
-        }
-        
-        if let source = article.source?.name {
-            sourceLabel.text = source
-        }
-        
-        if let imageUrl = article.urlToImage, let url = URL(string: imageUrl) {
-            let placeholderImage = UIImage(systemName: "newspaper")?.withRenderingMode(.alwaysTemplate)
-            
+        if let url = viewModel.imageUrl {
+            let placeholderImage = viewModel.getDefaultImage()
             detailImageView.sd_setImage(with: url, placeholderImage: placeholderImage)
-            detailImageView.tintColor = .systemGray
         } else {
-            let defaultImage = UIImage(systemName: "newspaper")?.withRenderingMode(.alwaysTemplate)
-            
-            detailImageView.image = defaultImage
-            detailImageView.tintColor = .systemGray
-        }
-    }
-    
-    @objc private func moreDetailsButtonTapped() {
-        guard let articleURLString = article?.url, let url = URL(string: articleURLString) else {
-            print("Invalid URL")
-            return
+            detailImageView.image = viewModel.getDefaultImage()
         }
         
-        let safariVC = SFSafariViewController(url: url)
-        present(safariVC, animated: true, completion: nil)
+        updateFavoriteButtonState()
     }
     
     private func setupFavoriteButton() {
-        updateFavoriteButtonState()
         favoriteButton.target = self
         favoriteButton.action = #selector(toggleFavorite)
-        
         navigationItem.rightBarButtonItem = favoriteButton
+        updateFavoriteButtonState()
     }
     
     private func updateFavoriteButtonState() {
-        guard let article = article else { return }
-        PersistenceManager.retrieveFavorites { result in
-            switch result {
-            case .success(let favorites):
-                let isFavorite = favorites.contains { $0.url == article.url }
-                self.favoriteButton.image = UIImage(systemName: isFavorite ? "bookmark.fill" : "bookmark")
-            case .failure:
-                self.favoriteButton.image = UIImage(systemName: "bookmark")
-            }
-        }
+        favoriteButton.image = UIImage(systemName: viewModel?.favoriteIconName ?? "bookmark")
     }
     
     @objc private func toggleFavorite() {
-        guard let article = article else { return }
-        PersistenceManager.retrieveFavorites { result in
-            switch result {
-            case .success(let favorites):
-                let actionType: PersistenceActionType = favorites.contains { $0.url == article.url } ? .remove : .add
-                PersistenceManager.updateWith(favorite: article, actionType: actionType) { [weak self] error in
-                    guard error == nil else {
-                        DispatchQueue.main.async {
-                            let toast = Toast.default(
-                                image: UIImage(systemName: "exclamationmark.triangle.fill")!,
-                                title: "Something Went Wrong",
-                                subtitle: error?.localizedDescription
-                            )
-                            toast.show(haptic: .error, after: 0)
-                        }
-                        return
-                    }
+        viewModel?.toggleFavorite { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success:
                     self?.updateFavoriteButtonState()
-                    
-                    DispatchQueue.main.async {
-                        switch actionType {
-                        case .add:
-                            self?.feedbackGenerator.notificationOccurred(.success)
-                        case .remove:
-                            self?.feedbackGenerator.notificationOccurred(.warning)
-                        }
-                    }
-                }
-            case .failure(let error):
-                DispatchQueue.main.async {
+                    self?.feedbackGenerator.notificationOccurred(self?.viewModel?.isFavorite == true ? .success : .warning)
+                case .failure(let error):
                     let toast = Toast.default(
                         image: UIImage(systemName: "exclamationmark.triangle.fill")!,
                         title: "Something Went Wrong",
@@ -180,6 +136,21 @@ class DetailViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    @objc private func moreDetailsButtonTapped() {
+        guard let articleURLString = viewModel?.articleURL, let url = URL(string: articleURLString) else {
+            let toast = Toast.default(
+                image: UIImage(systemName: "exclamationmark.triangle.fill")!,
+                title: "Something Went Wrong",
+                subtitle: "Unable to access the relevant news"
+            )
+            toast.show(haptic: .error, after: 0)
+            return
+        }
+        
+        let safariVC = SFSafariViewController(url: url)
+        present(safariVC, animated: true, completion: nil)
     }
 }
 
