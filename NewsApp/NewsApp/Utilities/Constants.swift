@@ -91,3 +91,15 @@ enum NetworkErrorConstants {
 enum PersistenceErrorConstants {
     static let unableToFavorite = String.localized("persistence_error_unable_to_favorite")
 }
+
+enum OpenFavoritesTipConstants {
+    static let eventID = String.localized("open_favorites_tip_event_id")
+    static let title = String.localized("open_favorites_tip_title")
+    static let message = String.localized("open_favorites_tip_message")
+}
+
+enum AddFavoriteTipConstants {
+    static let eventID = String.localized("add_favorite_tip_event_id")
+    static let title = String.localized("add_favorite_tip_title")
+    static let message = String.localized("add_favorite_tip_message")
+}

@@ -7,6 +7,7 @@
 
 import UIKit
 import Toast
+import TipKit
 
 class HomeViewController: NADataLoadingViewController {
     let searchController = UISearchController()
@@ -14,6 +15,8 @@ class HomeViewController: NADataLoadingViewController {
     let sortOptionSegmentedControl = CustomSegmentedControl(segmentTitles: NewsSortOption.allCases.map { $0.description })
     let tableView = UITableView()
     let refreshControl = UIRefreshControl()
+    var favoritesButton: UIBarButtonItem?
+    var openFavoritesTip = OpenFavoritesTip()
     
     private var viewModel = HomeViewModel()
     
@@ -21,7 +24,13 @@ class HomeViewController: NADataLoadingViewController {
         super.viewDidLoad()
         viewModel.delegate = self
         setupUI()
+        incrementAppOpenCount()
         viewModel.fetchNews()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        showOpenFavoritesTip()
     }
     
     private func setupUI() {
@@ -91,11 +100,37 @@ class HomeViewController: NADataLoadingViewController {
     }
     
     private func setupFavoritesButton() {
-        let favoritesButton = UIBarButtonItem(image: UIImage(systemName: SFSymbolsConstants.bookmarkFill), style: .plain, target: self, action: #selector(showFavorites))
+        favoritesButton = UIBarButtonItem(image: UIImage(systemName: SFSymbolsConstants.bookmarkFill), style: .plain, target: self, action: #selector(showFavorites))
         navigationItem.rightBarButtonItem = favoritesButton
     }
     
+    private func showOpenFavoritesTip() {
+        Task {
+            if #available(iOS 17.0, *) {
+                for await shouldDisplay in openFavoritesTip.shouldDisplayUpdates {
+                    if shouldDisplay {
+                        let controller = TipUIPopoverViewController(openFavoritesTip, sourceItem: favoritesButton!)
+                        present(controller, animated: true)
+                    } else if presentedViewController is TipUIPopoverViewController {
+                        dismiss(animated: true)
+                    }
+                }
+            }
+        }
+    }
+    
+    private func incrementAppOpenCount() {
+        Task {
+            if #available(iOS 17.0, *) {
+                await OpenFavoritesTip.appOpenedCount.donate()
+            }
+        }
+    }
+    
     @objc private func showFavorites() {
+        if #available(iOS 17.0, *) {
+            openFavoritesTip.invalidate(reason: .tipClosed)
+        }
         let favoritesVC = FavoritesViewController()
         navigationController?.pushViewController(favoritesVC, animated: true)
     }

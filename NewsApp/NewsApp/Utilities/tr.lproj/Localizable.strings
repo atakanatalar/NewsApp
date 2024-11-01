@@ -77,3 +77,13 @@
 
 //MARK: - Persistence Error
 "persistence_error_unable_to_favorite" = "Bu kullanıcıyı favorilere eklerken bir hata oluştu";
+
+//MARK: - Open Favorites Tip
+"open_favorites_tip_event_id" = "homeOpenedCount";
+"open_favorites_tip_title" = "Favorileri Görüntüle";
+"open_favorites_tip_message" = "Favori haberlerine buradan ulaşabilirsin";
+
+//MARK: - Add Favorite Tip
+"add_favorite_tip_event_id" = "detailOpenedCount";
+"add_favorite_tip_title" = "Favorilere Ekle";
+"add_favorite_tip_message" = "Favorilerine buradan ekleyebilirsin";

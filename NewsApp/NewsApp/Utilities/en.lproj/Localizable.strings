@@ -77,3 +77,13 @@
 
 //MARK: - Persistence Error
 "persistence_error_unable_to_favorite" = "There was an error favoriting this user";
+
+//MARK: - Open Favorites Tip
+"open_favorites_tip_event_id" = "appOpenedCount";
+"open_favorites_tip_title" = "View Your Favorites";
+"open_favorites_tip_message" = "You can access your favorite news from here";
+
+//MARK: - Add Favorite Tip
+"add_favorite_tip_event_id" = "appOpenedCount";
+"add_favorite_tip_title" = "Add to Favorites";
+"add_favorite_tip_message" = "You can add this article to your favorites from here";

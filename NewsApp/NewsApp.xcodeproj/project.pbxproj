@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0C0369C42CCCF070004EECCF /* PersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0369C32CCCF070004EECCF /* PersistenceManager.swift */; };
 		0C0369C62CCCF0F2004EECCF /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0369C52CCCF0F2004EECCF /* FavoritesViewController.swift */; };
+		0C29B1ED2CD4C2950031D2D9 /* OpenFavoritesTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C29B1EC2CD4C2940031D2D9 /* OpenFavoritesTip.swift */; };
 		0C6F0D132CD0ED3D00FDA856 /* NAButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6F0D122CD0ED3D00FDA856 /* NAButton.swift */; };
 		0C6F0D162CD0F48800FDA856 /* NATitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6F0D152CD0F48800FDA856 /* NATitleLabel.swift */; };
 		0C6F0D182CD0F73800FDA856 /* NASecondaryTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6F0D172CD0F73800FDA856 /* NASecondaryTitleLabel.swift */; };
@@ -44,11 +45,13 @@
 		0CD5D3632CC3CC2B00172654 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD5D3622CC3CC2B00172654 /* DetailViewController.swift */; };
 		0CD5D3652CC67C2400172654 /* CustomSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD5D3642CC67C2400172654 /* CustomSegmentedControl.swift */; };
 		0CD5D3682CC7BAEA00172654 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD5D3672CC7BAEA00172654 /* HomeViewModel.swift */; };
+		0CEA3A3A2CD4F5F8001BECC1 /* AddFavoritesTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEA3A392CD4F5F8001BECC1 /* AddFavoritesTip.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0C0369C32CCCF070004EECCF /* PersistenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceManager.swift; sourceTree = "<group>"; };
 		0C0369C52CCCF0F2004EECCF /* FavoritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
+		0C29B1EC2CD4C2940031D2D9 /* OpenFavoritesTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenFavoritesTip.swift; sourceTree = "<group>"; };
 		0C6F0D122CD0ED3D00FDA856 /* NAButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NAButton.swift; sourceTree = "<group>"; };
 		0C6F0D152CD0F48800FDA856 /* NATitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NATitleLabel.swift; sourceTree = "<group>"; };
 		0C6F0D172CD0F73800FDA856 /* NASecondaryTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NASecondaryTitleLabel.swift; sourceTree = "<group>"; };
@@ -86,6 +89,7 @@
 		0CD5D3622CC3CC2B00172654 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		0CD5D3642CC67C2400172654 /* CustomSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegmentedControl.swift; sourceTree = "<group>"; };
 		0CD5D3672CC7BAEA00172654 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		0CEA3A392CD4F5F8001BECC1 /* AddFavoritesTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFavoritesTip.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -316,6 +320,7 @@
 				0C6F0D102CD0ECFF00FDA856 /* SegmentedControl */,
 				0C6F0D212CD132ED00FDA856 /* ViewControllers */,
 				0C6F0D242CD1333E00FDA856 /* Views */,
+				0CEA3A3B2CD50571001BECC1 /* Tips */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -326,6 +331,15 @@
 				0CD5D3602CC3BA7E00172654 /* DateHelpers.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		0CEA3A3B2CD50571001BECC1 /* Tips */ = {
+			isa = PBXGroup;
+			children = (
+				0C29B1EC2CD4C2940031D2D9 /* OpenFavoritesTip.swift */,
+				0CEA3A392CD4F5F8001BECC1 /* AddFavoritesTip.swift */,
+			);
+			path = Tips;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -419,7 +433,9 @@
 				0CD5D3552CC28CB100172654 /* NewsCategory.swift in Sources */,
 				0CD5D3592CC3B2AA00172654 /* NewsTableViewCell.swift in Sources */,
 				0C6F0D322CD37AE800FDA856 /* Constants.swift in Sources */,
+				0CEA3A3A2CD4F5F8001BECC1 /* AddFavoritesTip.swift in Sources */,
 				0CA404672CC9872600D0E8BE /* OnboardingViewController.swift in Sources */,
+				0C29B1ED2CD4C2950031D2D9 /* OpenFavoritesTip.swift in Sources */,
 				0CD5D3682CC7BAEA00172654 /* HomeViewModel.swift in Sources */,
 				0C6F0D1D2CD11A2A00FDA856 /* NAImageView.swift in Sources */,
 				0CD5D32F2CC25CD200172654 /* HomeViewController.swift in Sources */,
@@ -607,6 +623,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_SWIFT_FLAGS = "-external-plugin-path $(SYSTEM_DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/usr/lib/swift/host/plugins#$(SYSTEM_DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server";
 				PRODUCT_BUNDLE_IDENTIFIER = dev.atakanatalar.NewsApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -634,6 +651,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_SWIFT_FLAGS = "-external-plugin-path $(SYSTEM_DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/usr/lib/swift/host/plugins#$(SYSTEM_DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server";
 				PRODUCT_BUNDLE_IDENTIFIER = dev.atakanatalar.NewsApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

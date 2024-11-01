@@ -8,6 +8,7 @@
 import UIKit
 import SafariServices
 import Toast
+import TipKit
 
 class DetailViewController: UIViewController {
     var article: Article? {
@@ -29,6 +30,7 @@ class DetailViewController: UIViewController {
     private let scrollView = UIScrollView()
     private let contentView = UIView()
     private let feedbackGenerator = UINotificationFeedbackGenerator()
+    private var addFavoriteTip = AddFavoritesTip()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +38,12 @@ class DetailViewController: UIViewController {
         
         setupUI()
         configureView()
+        incrementAppOpenCount()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        showAddFavoriteTip()
     }
     
     private func setupUI() {
@@ -119,6 +127,29 @@ class DetailViewController: UIViewController {
         favoriteButton.image = UIImage(systemName: viewModel?.favoriteIconName ?? SFSymbolsConstants.bookmark)
     }
     
+    private func showAddFavoriteTip() {
+        Task {
+            if #available(iOS 17.0, *) {
+                for await shouldDisplay in addFavoriteTip.shouldDisplayUpdates {
+                    if shouldDisplay {
+                        let controller = TipUIPopoverViewController(addFavoriteTip, sourceItem: favoriteButton)
+                        present(controller, animated: true)
+                    } else if presentedViewController is TipUIPopoverViewController {
+                        dismiss(animated: true)
+                    }
+                }
+            }
+        }
+    }
+    
+    private func incrementAppOpenCount() {
+        Task {
+            if #available(iOS 17.0, *) {
+                await AddFavoritesTip.appOpenedCount.donate()
+            }
+        }
+    }
+    
     @objc private func toggleFavorite() {
         viewModel?.toggleFavorite { [weak self] result in
             DispatchQueue.main.async {
@@ -134,6 +165,8 @@ class DetailViewController: UIViewController {
                     )
                     toast.show(haptic: .error, after: 0)
                 }
+                
+                if #available(iOS 17.0, *) { self?.addFavoriteTip.invalidate(reason: .tipClosed) }
             }
         }
     }
