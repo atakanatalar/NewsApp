@@ -220,19 +220,26 @@ extension HomeViewController: UISearchResultsUpdating {
         viewModel.debounceTimer?.invalidate()
         viewModel.debounceTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { [weak self] _ in
             guard let self = self else { return }
-            
             if searchText != self.viewModel.lastSearchText {
                 self.viewModel.lastSearchText = searchText
                 self.viewModel.resetArticles()
                 self.viewModel.fetchNews(query: searchText)
             }
         }
+        
+        guard !searchController.isBeingDismissed else { return }
+        
+        if searchText?.isEmpty == false {
+            tableView.tableHeaderView = sortOptionSegmentedControl
+        } else {
+            tableView.tableHeaderView = nil
+        }
     }
 }
 
 extension HomeViewController: UISearchControllerDelegate {
     func willPresentSearchController(_ searchController: UISearchController) {
-        tableView.tableHeaderView = sortOptionSegmentedControl
+        tableView.tableHeaderView = nil
     }
     
     func willDismissSearchController(_ searchController: UISearchController) {
