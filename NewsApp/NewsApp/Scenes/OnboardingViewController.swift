@@ -107,7 +107,7 @@ class OnboardingViewController: UIViewController {
     }
     
     @objc private func didTapStartButton() {
-        //        UserDefaults.standard.set(true, forKey: UserDefaultsConstants.onboardingForKey)
+        UserDefaults.standard.set(true, forKey: UserDefaultsConstants.onboardingForKey)
         
         let homeVC = HomeViewController()
         navigationController?.setViewControllers([homeVC], animated: true)

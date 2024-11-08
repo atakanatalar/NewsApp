@@ -31,6 +31,7 @@ class DetailViewController: UIViewController {
     private let contentView = UIView()
     private let feedbackGenerator = UINotificationFeedbackGenerator()
     private var addFavoriteTip = AddFavoritesTip()
+    private var aspectRatioConstraint: NSLayoutConstraint?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,11 +66,9 @@ class DetailViewController: UIViewController {
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             contentView.bottomAnchor.constraint(equalTo: moreDetailButton.bottomAnchor),
             
-            detailImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            detailImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: -50),
             detailImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             detailImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            detailImageView.widthAnchor.constraint(equalToConstant: view.bounds.width),
-            detailImageView.heightAnchor.constraint(equalToConstant: view.bounds.width * 9 / 16),
             
             sourceLabel.topAnchor.constraint(equalTo: detailImageView.bottomAnchor, constant: 10),
             sourceLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
@@ -108,14 +107,29 @@ class DetailViewController: UIViewController {
         
         if let url = viewModel.imageUrl {
             let placeholderImage = viewModel.getDefaultImage()
-            detailImageView.sd_setImage(with: url, placeholderImage: placeholderImage)
+            detailImageView.sd_setImage(with: url, placeholderImage: placeholderImage) { [weak self] image, _, _, _ in
+                guard let self = self, let image = image else { return }
+                self.updateImageAspectRatio(image: image)
+            }
         } else {
-            detailImageView.image = viewModel.getDefaultImage()
+            let defaultImage = viewModel.getDefaultImage()
+            detailImageView.image = defaultImage
+            updateImageAspectRatio(image: defaultImage)
         }
         
         updateFavoriteButtonState()
     }
     
+    private func updateImageAspectRatio(image: UIImage) {
+        if let existingConstraint = aspectRatioConstraint {
+            detailImageView.removeConstraint(existingConstraint)
+        }
+        
+        let aspectRatio = image.size.width / image.size.height
+        aspectRatioConstraint = detailImageView.widthAnchor.constraint(equalTo: detailImageView.heightAnchor, multiplier: aspectRatio)
+        aspectRatioConstraint?.isActive = true
+    }
+
     private func setupFavoriteButton() {
         favoriteButton.target = self
         favoriteButton.action = #selector(toggleFavorite)
