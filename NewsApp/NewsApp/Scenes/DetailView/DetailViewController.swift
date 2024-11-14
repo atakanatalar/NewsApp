@@ -32,6 +32,9 @@ class DetailViewController: UIViewController {
     private let feedbackGenerator = UINotificationFeedbackGenerator()
     private var addFavoriteTip = AddFavoritesTip()
     private var aspectRatioConstraint: NSLayoutConstraint?
+    private var sourceAndDateHorizontalConstraints: [NSLayoutConstraint] = []
+    private var sourceAndDateVerticalConstraints: [NSLayoutConstraint] = []
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,6 +43,13 @@ class DetailViewController: UIViewController {
         setupUI()
         configureView()
         incrementAppOpenCount()
+        
+        NotificationCenter.default.addObserver(
+                self,
+                selector: #selector(handleContentSizeCategoryChange),
+                name: UIContentSizeCategory.didChangeNotification,
+                object: nil
+            )
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -70,13 +80,7 @@ class DetailViewController: UIViewController {
             detailImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             detailImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             
-            sourceLabel.topAnchor.constraint(equalTo: detailImageView.bottomAnchor, constant: 10),
-            sourceLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            
-            dateLabel.topAnchor.constraint(equalTo: detailImageView.bottomAnchor, constant: 10),
-            dateLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            
-            titleLabel.topAnchor.constraint(equalTo: sourceLabel.bottomAnchor, constant: 10),
+            titleLabel.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 10),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             
@@ -92,9 +96,46 @@ class DetailViewController: UIViewController {
             moreDetailButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
         ])
         
+        sourceAndDateHorizontalConstraints = [
+            sourceLabel.topAnchor.constraint(equalTo: detailImageView.bottomAnchor, constant: 10),
+            sourceLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            
+            dateLabel.topAnchor.constraint(equalTo: detailImageView.bottomAnchor, constant: 10),
+            dateLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+        ]
+        
+        sourceAndDateVerticalConstraints = [
+            sourceLabel.topAnchor.constraint(equalTo: detailImageView.bottomAnchor, constant: 10),
+            sourceLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            
+            dateLabel.topAnchor.constraint(equalTo: sourceLabel.bottomAnchor, constant: 5),
+            dateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            dateLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+        ]
+        
+        NSLayoutConstraint.activate(sourceAndDateHorizontalConstraints)
+        
         moreDetailButton.addTarget(self, action: #selector(moreDetailsButtonTapped), for: .touchUpInside)
         setupFavoriteButton()
     }
+    
+    @objc private func handleContentSizeCategoryChange() {
+        adjustLabelConstraints()
+    }
+    
+    private func adjustLabelConstraints() {
+        let contentSizeCategory = UIApplication.shared.preferredContentSizeCategory
+        
+        if contentSizeCategory >= .accessibilityMedium {
+            NSLayoutConstraint.deactivate(sourceAndDateHorizontalConstraints)
+            NSLayoutConstraint.activate(sourceAndDateVerticalConstraints)
+        } else {
+            NSLayoutConstraint.deactivate(sourceAndDateVerticalConstraints)
+            NSLayoutConstraint.activate(sourceAndDateHorizontalConstraints)
+        }
+        view.layoutIfNeeded()
+    }
+    
     
     private func configureView() {
         guard let viewModel = viewModel else { return }
@@ -129,7 +170,7 @@ class DetailViewController: UIViewController {
         aspectRatioConstraint = detailImageView.widthAnchor.constraint(equalTo: detailImageView.heightAnchor, multiplier: aspectRatio)
         aspectRatioConstraint?.isActive = true
     }
-
+    
     private func setupFavoriteButton() {
         favoriteButton.target = self
         favoriteButton.action = #selector(toggleFavorite)
@@ -198,6 +239,10 @@ class DetailViewController: UIViewController {
         
         let safariVC = SFSafariViewController(url: url)
         present(safariVC, animated: true, completion: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
 }
 
