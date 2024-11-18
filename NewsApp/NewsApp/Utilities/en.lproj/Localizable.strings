@@ -19,6 +19,7 @@
 "home_title" = "News";
 "home_search_placeholder" = "Search";
 "home_table_view_cell_id" = "NewsCell";
+"home_empty_state_message" = "No articles found";
 
 //MARK: - Favorites View
 "favorites_title" = "Favorites";

@@ -139,7 +139,14 @@ class HomeViewController: NADataLoadingViewController {
 extension HomeViewController: HomeViewModelDelegate {
     func didUpdateArticles() {
         DispatchQueue.main.async {
-            self.tableView.reloadData()
+            if self.viewModel.articles.isEmpty {
+                self.tableView.reloadData()
+                self.showEmptyStateView(with: HomeViewConstants.emptyStateMessage, in: self.view)
+            } else {
+                self.tableView.reloadData()
+                self.view.bringSubviewToFront(self.tableView)
+            }
+            
             self.dismissLoadingView()
         }
     }

@@ -19,6 +19,7 @@
 "home_title" = "Haberler";
 "home_search_placeholder" = "Ara";
 "home_table_view_cell_id" = "NewsCell";
+"home_empty_state_message" = "Haber bulunamadı";
 
 //MARK: - Favorites View
 "favorites_title" = "Favoriler";

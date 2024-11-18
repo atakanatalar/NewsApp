@@ -21,6 +21,7 @@ enum HomeViewConstants {
     static let title = String.localized("home_title")
     static let searchPlaceholder = String.localized("home_search_placeholder")
     static let tableViewCellID = String.localized("home_table_view_cell_id")
+    static let emptyStateMessage = String.localized("home_empty_state_message")
 }
 
 enum FavoritesViewConstants {
