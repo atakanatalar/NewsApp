@@ -1,5 +1,5 @@
 # NewsApp
-![News_App_1](https://github.com/user-attachments/assets/8c4054dc-3a76-4efa-9cce-1c926ee2d1ab)
+![News_App_1](https://github.com/user-attachments/assets/948fc74d-99ea-473e-8471-5e836d9d7ef8)
 
 ## Description
 
@@ -17,6 +17,7 @@ NewsApp is an iOS application that allows users to easily discover current news.
 - **Language Support**: The app offers news content in multiple languages, allowing users to follow news in various languages.
 - **Dynamic Font Support**: The app automatically adjusts the font size based on user preferences, providing a more accessible experience.
 - **Dark Mode Support**: The app detects the system's theme setting and provides an optimized dark mode experience for users.
+- **Router-Based Navigation**: The app uses a router-based navigation structure to manage screen transitions. This approach ensures a cleaner codebase by centralizing navigation logic and improving maintainability.
 
 ## Requirements
 
@@ -52,6 +53,8 @@ To install and run the app on your local machine, follow these steps:
 The `NetworkConstants` file is not shared within this repository for security reasons. It contains sensitive information such as API keys and endpoint URLs required for making network requests. Please create your own `NetworkConstants.swift` file with the necessary configurations to run the app.
 
 ## Screenshots
-![News_App_2](https://github.com/user-attachments/assets/239ea60d-abba-4ef2-a288-f0582eca4b7f)
-![News_App_3](https://github.com/user-attachments/assets/b4a66927-4f11-4d78-a8c9-00b9b6a7caa4)
-![News_App_4](https://github.com/user-attachments/assets/1f6753e2-a266-435f-a8e9-7d4906d01c5e)
+![News_App_2](https://github.com/user-attachments/assets/09f7bbd9-7824-44c6-9813-25a5b9fd5714)
+![News_App_3](https://github.com/user-attachments/assets/5406068e-d42d-471a-8946-6591d868ab04)
+![News_App_4](https://github.com/user-attachments/assets/42799194-7611-4665-a656-5df0758304b6)
+![News_App_5](https://github.com/user-attachments/assets/bf2fdfe9-2198-4de8-b6aa-2d3e3f2616c4)
+
