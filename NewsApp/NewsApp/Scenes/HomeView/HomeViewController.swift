@@ -20,6 +20,17 @@ class HomeViewController: NADataLoadingViewController {
     
     private var viewModel = HomeViewModel()
     
+    var router: HomeRouter
+    
+    init(router: HomeRouter) {
+        self.router = router
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.delegate = self
@@ -131,8 +142,7 @@ class HomeViewController: NADataLoadingViewController {
         if #available(iOS 17.0, *) {
             openFavoritesTip.invalidate(reason: .tipClosed)
         }
-        let favoritesVC = FavoritesViewController()
-        navigationController?.pushViewController(favoritesVC, animated: true)
+        router.pushFavoritesViewController()
     }
 }
 
@@ -195,9 +205,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedArticle = viewModel.articles[indexPath.row]
-        let detailVC = DetailViewController()
-        detailVC.article = selectedArticle
-        navigationController?.pushViewController(detailVC, animated: true)
+        router.pushDetailViewController(article: selectedArticle)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -253,9 +261,4 @@ extension HomeViewController: UISearchControllerDelegate {
         tableView.tableHeaderView = categorySegmentedControl
         viewModel.lastSearchText = nil
     }
-}
-
-#Preview {
-    let vc = HomeViewController()
-    return UINavigationController(rootViewController: vc)
 }

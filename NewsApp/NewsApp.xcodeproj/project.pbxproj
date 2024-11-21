@@ -24,6 +24,21 @@
 		0C6F0D322CD37AE800FDA856 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6F0D312CD37AE800FDA856 /* Constants.swift */; };
 		0C6F0D342CD37C2700FDA856 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6F0D332CD37C2700FDA856 /* String+Extensions.swift */; };
 		0C6F0D382CD3835E00FDA856 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0C6F0D362CD3835E00FDA856 /* Localizable.strings */; };
+		0C76CBC42CEF2B3600637A8E /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C76CBC32CEF2B3600637A8E /* Router.swift */; };
+		0C76CBC62CEF2B4100637A8E /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C76CBC52CEF2B4100637A8E /* AppRouter.swift */; };
+		0C76CBC82CEF2B4900637A8E /* Animator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C76CBC72CEF2B4900637A8E /* Animator.swift */; };
+		0C76CBCB2CEF2B5E00637A8E /* Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C76CBCA2CEF2B5E00637A8E /* Transition.swift */; };
+		0C76CBCD2CEF2B6700637A8E /* PushTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C76CBCC2CEF2B6700637A8E /* PushTransition.swift */; };
+		0C76CBCF2CEF2B7900637A8E /* PlaceOnWindows.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C76CBCE2CEF2B7900637A8E /* PlaceOnWindows.swift */; };
+		0C76CBD12CEF2B8100637A8E /* ModalTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C76CBD02CEF2B8100637A8E /* ModalTransition.swift */; };
+		0C76CBD32CEF2CD200637A8E /* OnboardRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C76CBD22CEF2CD200637A8E /* OnboardRouter.swift */; };
+		0C76CBD52CEF2CFE00637A8E /* OnboardRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C76CBD42CEF2CFE00637A8E /* OnboardRoute.swift */; };
+		0C76CBD72CEF2DFC00637A8E /* HomeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C76CBD62CEF2DFC00637A8E /* HomeRouter.swift */; };
+		0C76CBD92CEF2E2D00637A8E /* HomeRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C76CBD82CEF2E2D00637A8E /* HomeRoute.swift */; };
+		0C76CBDB2CEF2EFF00637A8E /* FavoritesRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C76CBDA2CEF2EFF00637A8E /* FavoritesRoute.swift */; };
+		0C76CBDD2CEF2F0B00637A8E /* FavoritesRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C76CBDC2CEF2F0B00637A8E /* FavoritesRouter.swift */; };
+		0C76CBDF2CEF2FE500637A8E /* DetailRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C76CBDE2CEF2FE500637A8E /* DetailRoute.swift */; };
+		0C76CBE12CEF2FEE00637A8E /* DetailRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C76CBE02CEF2FEE00637A8E /* DetailRouter.swift */; };
 		0C907B712CDA4CCC005E4145 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0C907B702CDA4CCC005E4145 /* IQKeyboardManagerSwift */; };
 		0CA404672CC9872600D0E8BE /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA404662CC9872600D0E8BE /* OnboardingViewController.swift */; };
 		0CA404692CCBA90A00D0E8BE /* NewsSortOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA404682CCBA90A00D0E8BE /* NewsSortOption.swift */; };
@@ -71,6 +86,21 @@
 		0C6F0D352CD3833500FDA856 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		0C6F0D372CD3835E00FDA856 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		0C6F0D3B2CD39AFC00FDA856 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		0C76CBC32CEF2B3600637A8E /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		0C76CBC52CEF2B4100637A8E /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
+		0C76CBC72CEF2B4900637A8E /* Animator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animator.swift; sourceTree = "<group>"; };
+		0C76CBCA2CEF2B5E00637A8E /* Transition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transition.swift; sourceTree = "<group>"; };
+		0C76CBCC2CEF2B6700637A8E /* PushTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushTransition.swift; sourceTree = "<group>"; };
+		0C76CBCE2CEF2B7900637A8E /* PlaceOnWindows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceOnWindows.swift; sourceTree = "<group>"; };
+		0C76CBD02CEF2B8100637A8E /* ModalTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalTransition.swift; sourceTree = "<group>"; };
+		0C76CBD22CEF2CD200637A8E /* OnboardRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardRouter.swift; sourceTree = "<group>"; };
+		0C76CBD42CEF2CFE00637A8E /* OnboardRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardRoute.swift; sourceTree = "<group>"; };
+		0C76CBD62CEF2DFC00637A8E /* HomeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRouter.swift; sourceTree = "<group>"; };
+		0C76CBD82CEF2E2D00637A8E /* HomeRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRoute.swift; sourceTree = "<group>"; };
+		0C76CBDA2CEF2EFF00637A8E /* FavoritesRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesRoute.swift; sourceTree = "<group>"; };
+		0C76CBDC2CEF2F0B00637A8E /* FavoritesRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesRouter.swift; sourceTree = "<group>"; };
+		0C76CBDE2CEF2FE500637A8E /* DetailRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRoute.swift; sourceTree = "<group>"; };
+		0C76CBE02CEF2FEE00637A8E /* DetailRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRouter.swift; sourceTree = "<group>"; };
 		0CA404662CC9872600D0E8BE /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		0CA404682CCBA90A00D0E8BE /* NewsSortOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsSortOption.swift; sourceTree = "<group>"; };
 		0CD5D3272CC25CD200172654 /* NewsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -127,6 +157,8 @@
 			children = (
 				0CD5D32E2CC25CD200172654 /* HomeViewController.swift */,
 				0CD5D3672CC7BAEA00172654 /* HomeViewModel.swift */,
+				0C76CBD62CEF2DFC00637A8E /* HomeRouter.swift */,
+				0C76CBD82CEF2E2D00637A8E /* HomeRoute.swift */,
 			);
 			path = HomeView;
 			sourceTree = "<group>";
@@ -204,6 +236,8 @@
 			children = (
 				0CD5D3622CC3CC2B00172654 /* DetailViewController.swift */,
 				0C6F0D2C2CD364EE00FDA856 /* DetailViewModel.swift */,
+				0C76CBE02CEF2FEE00637A8E /* DetailRouter.swift */,
+				0C76CBDE2CEF2FE500637A8E /* DetailRoute.swift */,
 			);
 			path = DetailView;
 			sourceTree = "<group>";
@@ -213,8 +247,32 @@
 			children = (
 				0C0369C52CCCF0F2004EECCF /* FavoritesViewController.swift */,
 				0C6F0D2F2CD373B500FDA856 /* FavoritesViewModel.swift */,
+				0C76CBDC2CEF2F0B00637A8E /* FavoritesRouter.swift */,
+				0C76CBDA2CEF2EFF00637A8E /* FavoritesRoute.swift */,
 			);
 			path = FavoritesView;
+			sourceTree = "<group>";
+		};
+		0C76CBC22CEF2B1E00637A8E /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				0C76CBC92CEF2B4E00637A8E /* Transition */,
+				0C76CBC72CEF2B4900637A8E /* Animator.swift */,
+				0C76CBC52CEF2B4100637A8E /* AppRouter.swift */,
+				0C76CBC32CEF2B3600637A8E /* Router.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		0C76CBC92CEF2B4E00637A8E /* Transition */ = {
+			isa = PBXGroup;
+			children = (
+				0C76CBD02CEF2B8100637A8E /* ModalTransition.swift */,
+				0C76CBCE2CEF2B7900637A8E /* PlaceOnWindows.swift */,
+				0C76CBCC2CEF2B6700637A8E /* PushTransition.swift */,
+				0C76CBCA2CEF2B5E00637A8E /* Transition.swift */,
+			);
+			path = Transition;
 			sourceTree = "<group>";
 		};
 		0CD5D31E2CC25CD200172654 = {
@@ -242,6 +300,7 @@
 				0C6F0D1E2CD12F7600FDA856 /* Extensions */,
 				0CD5D35F2CC3BA6D00172654 /* Helpers */,
 				0CD5D33F2CC25CF900172654 /* Resources */,
+				0C76CBC22CEF2B1E00637A8E /* Router */,
 				0CD5D3422CC26D4D00172654 /* Scenes */,
 				0C6F0D2A2CD26AF200FDA856 /* Utilities */,
 			);
@@ -271,6 +330,8 @@
 			isa = PBXGroup;
 			children = (
 				0CA404662CC9872600D0E8BE /* OnboardingViewController.swift */,
+				0C76CBD22CEF2CD200637A8E /* OnboardRouter.swift */,
+				0C76CBD42CEF2CFE00637A8E /* OnboardRoute.swift */,
 				0C6F0D2B2CD3647900FDA856 /* DetailView */,
 				0C6F0D2E2CD3739E00FDA856 /* FavoritesView */,
 				0C6F0D0F2CD0ECE100FDA856 /* HomeView */,
@@ -438,35 +499,50 @@
 				0C6F0D302CD373B500FDA856 /* FavoritesViewModel.swift in Sources */,
 				0C6F0D232CD1330E00FDA856 /* NADataLoadingViewController.swift in Sources */,
 				0C6F0D132CD0ED3D00FDA856 /* NAButton.swift in Sources */,
+				0C76CBDF2CEF2FE500637A8E /* DetailRoute.swift in Sources */,
 				0C6F0D2D2CD364EE00FDA856 /* DetailViewModel.swift in Sources */,
+				0C76CBCF2CEF2B7900637A8E /* PlaceOnWindows.swift in Sources */,
 				0CF4EC6A2CE620C100CFFD94 /* CellContentSizeHelper.swift in Sources */,
 				0C6F0D342CD37C2700FDA856 /* String+Extensions.swift in Sources */,
+				0C76CBC42CEF2B3600637A8E /* Router.swift in Sources */,
 				0C6F0D1A2CD0FBA600FDA856 /* NABodyLabel.swift in Sources */,
 				0CD5D3472CC2736200172654 /* HTTPMethod.swift in Sources */,
 				0CA404692CCBA90A00D0E8BE /* NewsSortOption.swift in Sources */,
+				0C76CBD72CEF2DFC00637A8E /* HomeRouter.swift in Sources */,
 				0CD5D3552CC28CB100172654 /* NewsCategory.swift in Sources */,
 				0CD5D3592CC3B2AA00172654 /* NewsTableViewCell.swift in Sources */,
 				0C6F0D322CD37AE800FDA856 /* Constants.swift in Sources */,
 				0CEA3A3A2CD4F5F8001BECC1 /* AddFavoritesTip.swift in Sources */,
+				0C76CBD52CEF2CFE00637A8E /* OnboardRoute.swift in Sources */,
 				0CA404672CC9872600D0E8BE /* OnboardingViewController.swift in Sources */,
 				0C29B1ED2CD4C2950031D2D9 /* OpenFavoritesTip.swift in Sources */,
 				0CD5D3682CC7BAEA00172654 /* HomeViewModel.swift in Sources */,
 				0C6F0D1D2CD11A2A00FDA856 /* NAImageView.swift in Sources */,
 				0CD5D32F2CC25CD200172654 /* HomeViewController.swift in Sources */,
 				0CD5D3532CC2897000172654 /* NetworkConstants.swift in Sources */,
+				0C76CBC82CEF2B4900637A8E /* Animator.swift in Sources */,
 				0CD5D3512CC273A900172654 /* NewsResponse.swift in Sources */,
+				0C76CBD32CEF2CD200637A8E /* OnboardRouter.swift in Sources */,
+				0C76CBCD2CEF2B6700637A8E /* PushTransition.swift in Sources */,
 				0C6F0D162CD0F48800FDA856 /* NATitleLabel.swift in Sources */,
+				0C76CBE12CEF2FEE00637A8E /* DetailRouter.swift in Sources */,
 				0CD5D32B2CC25CD200172654 /* AppDelegate.swift in Sources */,
+				0C76CBC62CEF2B4100637A8E /* AppRouter.swift in Sources */,
+				0C76CBDD2CEF2F0B00637A8E /* FavoritesRouter.swift in Sources */,
 				0CD5D32D2CC25CD200172654 /* SceneDelegate.swift in Sources */,
 				0C6F0D182CD0F73800FDA856 /* NASecondaryTitleLabel.swift in Sources */,
 				0CD5D3652CC67C2400172654 /* CustomSegmentedControl.swift in Sources */,
 				0CD5D3612CC3BA7E00172654 /* DateHelpers.swift in Sources */,
+				0C76CBD92CEF2E2D00637A8E /* HomeRoute.swift in Sources */,
 				0C6F0D202CD12F8D00FDA856 /* UIView+Extensions.swift in Sources */,
 				0CD5D34F2CC2738300172654 /* NetworkManager.swift in Sources */,
 				0CD5D34B2CC2737300172654 /* Endpoint.swift in Sources */,
 				0CD5D34D2CC2737A00172654 /* NewsAPIEndpoint.swift in Sources */,
+				0C76CBDB2CEF2EFF00637A8E /* FavoritesRoute.swift in Sources */,
 				0CF4EC652CE61B4300CFFD94 /* CellHeightHelper.swift in Sources */,
+				0C76CBD12CEF2B8100637A8E /* ModalTransition.swift in Sources */,
 				0C6F0D262CD1335900FDA856 /* NAEmptyStateView.swift in Sources */,
+				0C76CBCB2CEF2B5E00637A8E /* Transition.swift in Sources */,
 				0CF4EC682CE61FB100CFFD94 /* CellLayoutHelper.swift in Sources */,
 				0C0369C42CCCF070004EECCF /* PersistenceManager.swift in Sources */,
 				0CD5D3492CC2736C00172654 /* NetworkError.swift in Sources */,

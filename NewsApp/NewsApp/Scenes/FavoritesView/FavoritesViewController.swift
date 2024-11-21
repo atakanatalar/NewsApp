@@ -13,6 +13,17 @@ class FavoritesViewController: NADataLoadingViewController {
     private let tableView = UITableView()
     private let feedbackGenerator = UINotificationFeedbackGenerator()
     
+    var router: FavoritesRouter
+    
+    init(router: FavoritesRouter) {
+        self.router = router
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .secondarySystemBackground
@@ -82,9 +93,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedArticle = viewModel.favoriteArticles[indexPath.row]
-        let detailVC = DetailViewController()
-        detailVC.article = selectedArticle
-        navigationController?.pushViewController(detailVC, animated: true)
+        router.pushDetailViewController(article: selectedArticle)
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {

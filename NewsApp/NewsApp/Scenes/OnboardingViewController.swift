@@ -19,6 +19,17 @@ class OnboardingViewController: UIViewController {
         return pvc
     }()
     
+    var router: OnboardRouter
+        
+    init(router: OnboardRouter) {
+        self.router = router
+        super.init(nibName: nil, bundle: nil)
+    }
+        
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .secondarySystemBackground
@@ -108,9 +119,7 @@ class OnboardingViewController: UIViewController {
     
     @objc private func didTapStartButton() {
         UserDefaults.standard.set(true, forKey: UserDefaultsConstants.onboardingForKey)
-        
-        let homeVC = HomeViewController()
-        navigationController?.setViewControllers([homeVC], animated: true)
+        router.placeOnHomeViewController()
     }
 }
 
@@ -130,8 +139,4 @@ extension OnboardingViewController: UIPageViewControllerDataSource, UIPageViewCo
             pageControl.currentPage = index
         }
     }
-}
-
-#Preview {
-    return OnboardingViewController()
 }
