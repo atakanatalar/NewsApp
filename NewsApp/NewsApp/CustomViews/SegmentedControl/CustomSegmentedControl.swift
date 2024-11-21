@@ -53,7 +53,9 @@ class CustomSegmentedControl: UIView {
         for title in segmentTitles {
             let button = UIButton(type: .system)
             button.setTitle(title, for: .normal)
-            button.titleLabel?.font = .systemFont(ofSize: 14.0, weight: .bold)
+            let baseFont = UIFont.systemFont(ofSize: 14.0, weight: .bold)
+            button.titleLabel?.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: baseFont)
+            button.titleLabel?.adjustsFontForContentSizeCategory = true
             button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
             buttons.append(button)
             scrollView.addSubview(button)
